@@ -1,0 +1,73 @@
+v 1
+4 1 1  ' coords x, y, z  left, height, down
+  CCCCCCCCCCCCCC
+  CCCCCCCCCCCCCC
+  CCCCCCCCCCCCCC
+  CCCCCCCCCCCCCC
+  CCCCCCCCCCCCCC
+  CCCCCCCCCCCCCC
+  CCCCCCCCCCCCCC
+level
+..uuSS      SSuu..
+..SSuu      uuSS..
+..SSuu      uuSS..
+..              ..
+..SSuu      uuSS..
+..SSuu      uuSS..
+..uuSS      SSuu..
+level
+  uuSS      SSuu  
+  SS          SS  
+  gg          gg  
+                  
+  gg          gg  
+  SS          SS  
+  uuSS      SSuu  
+level
+  uuSSSSSSSSSSuu  
+  SS          SS  
+  SS          SS  
+  SS          SS  
+  SS          SS  
+  SS          SS  
+  uuSSSSSSSSSSuu  
+level
+wwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwww
+level
+  wwSSSSSSSSSSww  
+  ww          ww  
+  ww          ww  
+  ww          ww  
+  ww          ww  
+  ww          ww  
+  wwSSSSSSSSSSww  
+level
+    wwSSSSSSww    
+    ww      ww    
+    ww      ww    
+    ww      ww    
+    ww      ww    
+    ww      ww    
+    wwSSSSSSww    
+level
+      wwSSww      
+      ww  ww      
+      ww  ww      
+      ww  ww      
+      ww  ww      
+      ww  ww      
+      wwSSww      
+level
+        ww        
+        ww        
+        ww        
+        ww        
+        ww        
+        ww        
+        ww        

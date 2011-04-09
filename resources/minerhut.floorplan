@@ -1,0 +1,37 @@
+v 1
+3 1 1
+cccccccccccccc
+cccccccccccccc
+cccccccccccccc
+cccccccccccccc
+cccccccccccccc
+cccccccccccccc
+cccccccccccccc
+level 2
+    ' placeholder
+  uucc  ccuu  
+  
+  
+  
+  uucc  ccuu  
+level 3
+    ' blank line
+  uucc  ccuu  
+              
+              
+              
+  uucc  ccuu  
+level 4
+    ' blank line
+  wwccccccww  
+  ww      ww  
+  ww      ww  
+  ww      ww  
+  wwccccccww  
+level 5
+    ' blank line
+  cccccccccc  
+  cccccccccc  
+  cccccccccc  
+  cccccccccc  
+  cccccccccc  

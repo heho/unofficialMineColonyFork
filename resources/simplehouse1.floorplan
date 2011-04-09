@@ -1,0 +1,58 @@
+v 1
+5 0 0
+      fp..  ..fp
+      fp..  ..fp
+      cccc|1cccc
+      cc      cc 
+cccccccc      cc
+cc            cc
+cc            cc
+cc            cc
+cccccccccccccccc
+level
+      fp      fp
+      fp      fp
+      cccc  cccc
+      cc      cc 
+cccccccc      cc
+cc            cc
+cc            cc
+cc            cc
+cccccccccccccccc
+level
+      fp      fp
+      fp      fp
+      cccccccccc
+      cc      cc 
+cccccccc      cc
+cc            cc
+cc            cc
+cc            cc
+cccccccccccccccc
+level
+      v4      v2
+      v4      v2
+      v4wwwwwwv2
+      v4      v2 
+v1v1v1ww      v2
+ww            v2
+ww            v2
+ww            v2
+v3v3v3v3v3v3v3ww
+level
+        v4  v2  
+        v4  v2  
+        v4wwv2
+        v4  v2   
+        v4  v2  
+v1v1v1v1ww  v2  
+ww          v2  
+v3v3v3v3v3v3ww  
+level
+          _w    
+          _w    
+          _w  
+          _w     
+          _w    
+          _w    
+_w_w_w_w_w_w    

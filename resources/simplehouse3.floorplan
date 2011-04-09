@@ -1,0 +1,92 @@
+v 1
+3 0 -1
+..cccc|1cccc..
+..cc      cc..
+..cc      cc..
+cccc      cccc
+cc          cc  
+cc          cc  
+cc          cc  
+cc          cc  
+cc          cc  
+cc          cc  
+cc          cc  
+cccccccccccccc
+level 1
+  cccc  cccc
+  cc      cc
+  cc      cc
+cccc      cccc
+cc          cc
+cc          cc
+cc          cc
+cc          cc
+cc          cc
+cc          cc
+cc          cc
+cccccccccccccc
+level 2
+  v4wwwwwwv2
+  v4      v2
+  v4      v2
+cccc      cccc
+cc          cc
+cc          cc
+cc          cc
+cc          cc
+cc          cc
+cc          cc
+cc          cc
+cccccccccccccc
+level 3
+    v4wwv2  
+    v4  v2
+    v4  v2
+v4wwww  wwwwv2
+v4          v2
+v4          v2
+v4          v2
+v4          v2
+v4          v2
+v4          v2
+v4          v2
+v4wwwwwwwwwwv2
+level 4
+      ww    
+      ww  
+      ww  
+  v4ww  wwv2
+  v4      v2
+  v4      v2
+  v4      v2
+  v4      v2
+  v4      v2
+  v4      v2
+  v4      v2
+  v4wwwwwwv2
+level 5
+  '
+  '
+  '
+    v4wwv2
+    v4  v2
+    v4  v2
+    v4  v2
+    v4  v2
+    v4  v2
+    v4  v2
+    v4  v2
+    v4wwv2
+level 6
+  '
+  '
+  '
+      ww
+      ww  
+      ww  
+      ww  
+      ww  
+      ww  
+      ww  
+      ww  
+      ww  

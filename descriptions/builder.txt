@@ -1,0 +1,146 @@
+Builder
+New worker with minecraft .42.
+Programmed by rscott6666
+Skins and additional input by Vlad11
+
+ 
+
+The Builder builds buildings and will do some light landscaping.
+To build the builder you must place a door in the center
+spot and planks on the outside.  The builder will appear next to the chest.
+Unlike the other workers, the builders chest does not respond
+to the gold sceptre.  The iron sceptre will place fences as usual.
+ 
+The builder waits for you to place a build sign within 30 blocks
+of his chest.  The sign must read "Build" on the top line and the
+name of the structure to build on the second line.  The following
+structures are provided with the mod.  Tower1, SimpleHouse1, SimpleHouse2
+SimpleHouse3, Warehouse, BuilderHut, FarmerHut, LumberjackHut,
+MinerHut, chalet.
+In all cases, it doesn't matter if its upper or lower case.
+ 
+
+The structures are build from .floorplan files which detail how the
+house is built.  The .floorplan files are found
+in the resources folder.
+ 
+The builder needs materials to build the house.  If the floorplan
+asks for glass, you must give the builder glass.  If the floorplan
+calls for uncut wood, you must give the builder uncut wood...
+The builder will look for materials in other chests if they are nearby.
+If the builder cannot locate the required materials, he will wait
+back at his chest with a sign of what he needs.  He will also
+let you know how many he will need to finish the job.  For example,
+"Out of planks 65".  The builder does not pick resources up that
+are next to him, he only gets them from chests.
+ 
+If you remove the sign before the builder is finshed, he will stop
+building.
+ 
+The builder will do some crafting for you.  But none that require
+the furnace.  So uncut wood -> planks will be performed. 
+But sand->glass will not.  Wood->planks->sticks->fencepost will
+be performed.
+ 
+After each job, the builder returns the unused materials to his
+chest.
+
+Description of the floorplan file format
+first line tells you the version of the file format
+' single quotes start a comment which ends at the end of the line
+
+v 1          ' file format version 1
+3 0 -1       ' how the building is placed relative to the sign
+             ' the building is moved 3 to the right, and 0 down.
+             ' and one forward
+
+Each block is represented by 2 characters.
+..    clear this block
+      (two spaces) means leave block alone
+ww    wood/planks
+uu    uncut wood
+gg    glass
+cc    cobblestone
+SS    sandstone
+CC    smoothstone
+sa    sand
+oo    wool
+bb    brick
+|1    door facing up
+|2    door facing right
+|3    door facing down
+|4    door facing left
+^1    cobblestone stairs, leading up from top
+^2    cobblestone stairs, leading up from right
+^3    cobblestone stairs, leading up from bottom
+^4    cobblestone stairs, leading up from left
+v1    wood stairs (also v2-v4)
+_w    half height wood
+_c    half height cobblestone
+_S    half height smoothstone
+fp    fencepost
+ 
+ 
+sample file
+v1
+3 0 0        ' sign is where the spaces are
+....  ....   ' if we put .. where the spaces were, the builder would
+..ww|1ww..   ' remove the sign thus cancelling the whole construction
+..ww..ww..   
+..ww..ww..
+..wwwwww..
+..........
+level        ' level means start next layer/level
+..........
+..ww  ww..   ' we have to skip the second level of a door
+..ww..ww..   ' failure to do so makes the door get destroyed
+..ww..ww..
+..wwwwww..
+..........
+level
+..........
+..cccccc..
+..cccccc..
+..cccccc..
+..cccccc..
+..........
+ 
+ 
+another sample, delivery warehouse
+v 1
+3 1 0
+cccccccccccccc
+cccccccccccccc
+cccccccccccccc
+cccccccccccccc
+cccccccccccccc
+cccccccccccccc
+cccccccccccccc
+level 2
+ 
+..ww      ww 
+ 
+ 
+ 
+  wwwwwwwwww 
+level 3
+ 
+  ww      ww 
+ 
+ 
+ 
+  wwwwwwwwww 
+level 4
+ 
+  wwwwwwwwww 
+  ww      ww 
+  ww      ww 
+  ww      ww 
+  wwwwwwwwww 
+level 5
+ 
+  wwwwwwwwww 
+  wwwwwwwwww 
+  wwwwwwwwww 
+  wwwwwwwwww 
+  wwwwwwwwww  

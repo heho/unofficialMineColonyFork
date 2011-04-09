@@ -1,0 +1,70 @@
+v 1
+3 1 0
+
+  cccccccccccccc
+  cccccccccccccc
+  cccccccccccccc
+  cccccccccccccc
+  cccccccccccccc
+  cccccccccccccc
+  cccccccccccccc
+level 2
+
+  uu......wwwwuu
+  ..          ww
+  ..          ww 
+  ..          ww
+  ww          ww
+  ww          ww
+  uuwwwwwwwwwwuu
+level 3
+
+..uu......wwwwuu
+....          ww
+....          .. 
+....          ..
+..ww          ..
+..ww          ww
+..uuww......wwuu
+level 4
+
+..uuwwwwwwwwwwuu
+..ww          ww
+..ww          ww 
+..ww          ww
+..ww          ww
+..ww          ww
+..uuwwwwwwwwwwuu
+level 5
+  wwwwwwwwwwwwww
+wwwwwwwwwwwwwwww
+wwww          ww
+wwww          ww 
+wwww          oo
+wwww          oo
+wwww          oo
+wwwwwwwwooooooww
+level 6
+
+      wwwwwwwwww
+    wwww      ww 
+    ww        ww
+    ww        oo
+    ww        oo
+    wwwwwwooooww
+level 7
+
+                
+        wwwwwwww 
+      wwww    ww
+      ww      ww
+      ww      oo
+      wwwwwwooww
+level 8
+
+                
+                 
+          wwwwww
+        wwwwwwww
+        wwwwwwww
+        wwwwwwww

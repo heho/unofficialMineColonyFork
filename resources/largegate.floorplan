@@ -1,0 +1,63 @@
+v1
+4 0 0
+cccc        cccc
+ccccfp|1|2fpcccc
+cccc        cccc
+cc            cc
+cc            cc
+ccfp        fpcc
+cc            cc
+cc            cc
+^3            ^3
+level 
+cccc        cccc
+ccccfp    fpcccc
+cccc        cccc
+cc            cc
+cc            cc
+ccfp        fpcc
+cc            cc
+^3            ^3
+level 
+cccc        cccc
+ccccfpfpfpfpcccc
+cccc        cccc
+cc            cc
+cc            cc
+ccfp        fpcc
+^3            ^3
+level 
+cccccccccccccccc
+ccwwwwwwwwwwwwcc
+ccwwwwwwwwwwwwcc
+ccwwwwwwwwwwwwcc
+ccwwwwwwwwwwwwcc
+^3wwwwwwwwwwww^3
+level 
+  cccccccccccc  
+  wwwwwwwwwwww  
+
+
+
+  fpfpfpfpfpfp  
+level 
+  cc^4^2^4^2cc  
+
+
+
+
+  fp        fp  
+level 
+  fp        fp  
+                
+                
+                
+                
+  fp        fp  
+level 
+  wwwwwwwwwwww  
+  wwwwwwwwwwww  
+  wwwwwwwwwwww  
+  wwwwwwwwwwww  
+  wwwwwwwwwwww  
+  wwwwwwwwwwww
