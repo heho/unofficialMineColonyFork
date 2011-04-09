@@ -16,7 +16,6 @@ public class mod_MineColony extends BaseMod {
 	public static int blockFarmerID = 99;
 	public static int blockBankID = 100;
 	public static int blockBuilderID = 101;
-	public static int blockStreetSignPostID = 102;
 	
 	private static final Properties minecolProps = new Properties();
 
@@ -26,14 +25,12 @@ public class mod_MineColony extends BaseMod {
 	public static Block hutFarmer;
 	public static Block hutBank;
 	public static Block hutBuilder;
-	public static Block streetSignPost;
 	
 	public static Item scepterGold;
 	public static Item scepterSteel;
 	public static Item moneyGold;
 	public static Item moneySilver;
 	public static Item moneyBronze;
-	public static Item streetSign;
 
 
 	public void AddRecipes(CraftingManager recipes) {
@@ -44,12 +41,10 @@ public class mod_MineColony extends BaseMod {
 		recipes.addRecipe(new ItemStack(mod_MineColony.scepterSteel, 1),
 				new Object[] { " X", "# ", Character.valueOf('#'), Item.stick,
 						Character.valueOf('X'), Item.ingotIron });
-		recipes.addRecipe(new ItemStack(mod_MineColony.streetSign, 1), new Object[] { "X", "#", Character.valueOf('#'), Item.stick,
-						Character.valueOf('X'), Item.sign });
 		
 		//Money (only gold can be made that caused by lack of materials, but
 		//money will be changeable at a bank)
-		recipes.addShapelessRecipe(new ItemStack(mod_MineColony.moneyGold, 25),
+		recipes.addShapelessRecipe(new ItemStack(mod_MineColony.moneyGold, 5),
 				new Object[] { Item.ingotGold });
 
 		//Individual Huts
@@ -129,7 +124,6 @@ public class mod_MineColony extends BaseMod {
 			blockWarehouseID = Integer.parseInt(minecolProps.getProperty("WarehouseBlockID"));
 			blockBankID = Integer.parseInt(minecolProps.getProperty("BankBlockID"));
 			blockBuilderID = Integer.parseInt(minecolProps.getProperty("BuilderBlockID"));
-			blockStreetSignPostID = Integer.parseInt(minecolProps.getProperty("StreetsignPostBlockID"));
 			f.close();
 		}
 		catch (IOException e) {
@@ -152,9 +146,6 @@ public class mod_MineColony extends BaseMod {
 		hutBank = (new BlockHutBank(blockBankID,overrideID)).setHardness(2.5F).setStepSound(Block.soundWoodFootstep).setBlockName("hutBank");
 		overrideID = ModLoader.addOverride("/terrain.png", "/Block_hutBuilder.png");
 		hutBuilder = (new BlockHutBuilder(blockBuilderID,overrideID)).setHardness(2.5F).setStepSound(Block.soundWoodFootstep).setBlockName("hutBuilder");
-		overrideID = ModLoader.addOverride("/terrain.png", "/Block_hutBuilder_2.png");
-		streetSignPost = (new BlockStreetSign(blockStreetSignPostID, TileEntityStreetSign.class, true)).setHardness(1.0F).setStepSound(Block.soundWoodFootstep).setBlockName("streetSignPost");
-
 
 		//blocks
 		
@@ -164,9 +155,6 @@ public class mod_MineColony extends BaseMod {
 		scepterGold = (new ItemScepter(ModLoader.getUniqueEntityId())).setIconIndex(overrideID).setFull3D().setItemName("scepterGold");
 		overrideID = ModLoader.addOverride("/gui/items.png", "/gui/Item_scepterSteel.png");
 		scepterSteel = (new ItemScepter(ModLoader.getUniqueEntityId())).setIconIndex(overrideID).setFull3D().setItemName("scepterSteel");
-
-		overrideID = ModLoader.addOverride("/gui/items.png", "/gui/Item_streetSign.png");
-		streetSign = (new ItemStreetSign(ModLoader.getUniqueEntityId())).setIconIndex(overrideID).setFull3D().setItemName("streetSign");
 
 		overrideID = ModLoader.addOverride("/gui/items.png", "/gui/Item_moneyGold.png");
 		moneyGold = (new ItemMoney(ModLoader.getUniqueEntityId())).setIconIndex(overrideID).setFull3D().setItemName("moneyGold");
@@ -185,7 +173,6 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.RegisterBlock(hutFarmer);
 		ModLoader.RegisterBlock(hutBank);
 		ModLoader.RegisterBlock(hutBuilder);
-		ModLoader.RegisterBlock(streetSignPost);
 
 		//entitys
 		ModLoader.RegisterEntityID(EntityLumberjack.class, "Lumberjack", ModLoader.getUniqueEntityId());
@@ -204,15 +191,11 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.AddName(mod_MineColony.hutBank, "Bank");
 		ModLoader.AddName(mod_MineColony.hutBuilder, "Builder's chest");
 		ModLoader.AddName(mod_MineColony.hutFarmer, "Farmer's chest");
-		ModLoader.AddName(mod_MineColony.streetSignPost, "Streetsignpost");
 		ModLoader.AddName(mod_MineColony.moneyGold, "Gold coin");
 		ModLoader.AddName(mod_MineColony.moneySilver, "Silver coin");
 		ModLoader.AddName(mod_MineColony.moneyBronze, "Bronze coin");
-		ModLoader.AddName(mod_MineColony.streetSign, "Streetsign");
-		
 
 		ModLoader.RegisterTileEntity(TileEntityChanger.class, "Changer");
-		ModLoader.RegisterTileEntity(TileEntityStreetSign.class, "StreetSign");
 
 		AddRecipes(CraftingManager.getInstance());
 	}
@@ -245,7 +228,7 @@ public class mod_MineColony extends BaseMod {
 
 	public String Version()
 	{
-		return "MineColony 0.45u";
+		return "MineColony 0.43d";
 	}
 
 }

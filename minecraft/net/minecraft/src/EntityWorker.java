@@ -102,7 +102,7 @@ public class EntityWorker extends EntityCreature {
 
 	public void onUpdate() {
 		if (homePosX == 0 && homePosY == 0 && homePosZ == 0) {
-			Vec3D chestPos = scanForBlockNearEntity(mod_MineColony.hutBuilder.blockID,
+			Vec3D chestPos = scanForBlockNearEntity(mod_MineColony.hutFarmer.blockID,
 					workingRange, workingRange, workingRange);
 			if (chestPos != null) {
 				setHomePosition(chestPos.xCoord, chestPos.yCoord,
