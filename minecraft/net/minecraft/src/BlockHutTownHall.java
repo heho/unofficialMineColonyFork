@@ -13,11 +13,16 @@ public class BlockHutTownHall extends BlockInformator
 		workingRange = 200;
 	}
 
+	protected TileEntity getBlockEntity()
+    {
+        return new TileEntityTownHall();
+		//return null;
+    }
 
 	public boolean canPlaceBlockAt(World world, int i, int j, int k)
 	{
 		// check if there are other chests nearby
-		Vec3D chestPos = scanForBlockNearPoint(world, mod_MineColony.hutTownHall.blockID, i,j,k, workingRange, 200, workingRange);
+		Vec3D chestPos = scanForBlockNearPoint(world, mod_MineColony.hutTownHall.blockID, i,j,k, workingRange, 100, workingRange);
 		if (chestPos != null)
 			return false;
 
@@ -51,7 +56,18 @@ public class BlockHutTownHall extends BlockInformator
 				}
 		}
 		else
-			return super.blockActivated(world, i, j, k, entityplayer);
+		{
+			if(world.multiplayerWorld)
+			{
+				return true;
+			} else
+			{
+				TileEntityTownHall tileentitytownhall = (TileEntityTownHall)world.getBlockTileEntity(i, j, k);
+				GuiTownHall guiTownHall = new GuiTownHall(entityplayer.inventory, tileentitytownhall);
+				ModLoader.OpenGUI(entityplayer, guiTownHall);
+				return true;
+			}
+		}
 
 		return true;
 
@@ -61,7 +77,7 @@ public class BlockHutTownHall extends BlockInformator
 		super.onBlockAdded(world, i, j, k);
 
 		world.setBlockWithNotify(i, j, k, mod_MineColony.hutTownHall.blockID);
-		TileEntityInformator tileentityinformator = (TileEntityInformator) world
+		TileEntityTownHall tileentitytownhall = (TileEntityTownHall) world
 		.getBlockTileEntity(i, j, k);
 	}
 
