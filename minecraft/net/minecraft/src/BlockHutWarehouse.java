@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class BlockHutWarehouse extends BlockHut {
 	private EntityDeliveryMan dm;
-	
+
 	public BlockHutWarehouse(int blockID, int _textureID) {
 		super(blockID);
 		textureID = _textureID;
@@ -17,7 +17,7 @@ public class BlockHutWarehouse extends BlockHut {
 		dm = null;
 		// Sets the recipe be two planks horizontal to each other
 		// CraftingManager.getInstance().addRecipe(new ItemStack(blockID, 1,0),
-				// new Object[] { "##", Character.valueOf('#'), Block.sand});
+		// new Object[] { "##", Character.valueOf('#'), Block.sand});
 	}
 
 	public boolean canPlaceBlockAt(World world, int i, int j, int k)
@@ -29,9 +29,9 @@ public class BlockHutWarehouse extends BlockHut {
 
 		return super.canPlaceBlockAt(world, i, j, k);
 	}
-	
+
 	public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
-	{	
+	{
 		// build house when clicked with stick
 		ItemStack is = entityplayer.getCurrentEquippedItem();
 		if(is !=null && is.getItem()!=null && (is.getItem().shiftedIndex == mod_MineColony.scepterGold.shiftedIndex))
@@ -66,7 +66,7 @@ public class BlockHutWarehouse extends BlockHut {
 				for (int z = k - halfWidth-1; z <= k + halfWidth+1; z++) {
 					world.setBlockWithNotify(x, j - 1, z, Block.cobblestone.blockID);
 				}
-			
+
 			// roof
 			for (int x = i - halfWidth; x <= i + halfWidth; x++)
 				for (int z = k - halfWidth; z <= k + halfWidth; z++) {
@@ -86,8 +86,8 @@ public class BlockHutWarehouse extends BlockHut {
 
 			world.setBlockWithNotify(i-2, j + 2, k - halfWidth,Block.planks.blockID);
 			world.setBlockWithNotify(i+2, j + 2, k - halfWidth,Block.planks.blockID);
-			
-			
+
+
 			// Windows
 			world.setBlockWithNotify(i - halfWidth, j + 1, k-1, 0);
 			world.setBlockWithNotify(i - halfWidth, j, k-1, 0);
@@ -95,7 +95,7 @@ public class BlockHutWarehouse extends BlockHut {
 			world.setBlockWithNotify(i - halfWidth, j, k, 0);
 			world.setBlockWithNotify(i - halfWidth, j + 1, k+1, 0);
 			world.setBlockWithNotify(i - halfWidth, j, k+1, 0);
-			
+
 			world.setBlockWithNotify(i + halfWidth, j + 1, k-1, 0);
 			world.setBlockWithNotify(i + halfWidth, j, k-1, 0);
 			world.setBlockWithNotify(i + halfWidth, j + 1, k, 0);
@@ -105,59 +105,64 @@ public class BlockHutWarehouse extends BlockHut {
 		}
 		else
 			return super.blockActivated(world, i, j, k, entityplayer);
-		
+
 		return true;
-		
+
 	}
-	
+
 	public void onBlockAdded(World world, int i, int j, int k) {
-		super.onBlockAdded(world, i, j, k);		
+		super.onBlockAdded(world, i, j, k);
 		//world.setWorldTime(0);
 		world.setBlockWithNotify(i, j, k, mod_MineColony.hutWarehouse.blockID);
 		TileEntityChest tileentitychest = (TileEntityChest) world
-				.getBlockTileEntity(i, j, k);
-		
-		tileentitychest.setInventorySlotContents(0,  new ItemStack(Item.sign, 10));
-		// tileentitychest.setInventorySlotContents(1,  new ItemStack(Item.shovelSteel, 1));
-		// tileentitychest.setInventorySlotContents(2,  new ItemStack(Item.pickaxeSteel, 1));
-		// tileentitychest.setInventorySlotContents(3,  new ItemStack(Item.shovelSteel, 1));
-		// tileentitychest.setInventorySlotContents(4,  new ItemStack(Item.axeSteel, 1));
-		// tileentitychest.setInventorySlotContents(5,  new ItemStack(mod_MineColony.scepterGold, 1));
+		.getBlockTileEntity(i, j, k);
 
+		tileentitychest.setInventorySlotContents(0, new ItemStack(Item.sign, 10));
 
 		spawnWorker(world, i, j, k);
 	}
-	
+
 	public void updateTick(World world, int i, int j, int k, Random random)
-    {
+	{
 		super.updateTick(world, i, j, k, random);
 
 		if(getWorkerAround(world, i,j,k)==null)
 		{
-			if(dm!=null)
-				dm.isDead = true;
-			spawnWorker(world, i, j, k);
+			EntityDeliveryMan dm2=getDeliverymanAround2(world, i, j, k);
+			if (dm2==null && (dm==null ||  dm.isDead || dm.stuckCount>12))
+			{
+				System.out.println("");
+				if (dm!=null) dm.isDead=true;
+				dm=null;
+				spawnWorker(world, i, j, k);
+			}
+			//if(dm!=null)
+			//dm.isDead = true;
+			//spawnWorker(world, i, j, k);
 		}
-    }
+	}
+
+	
 	
 	public void spawnWorker(World world, int i, int j, int k)
 	{
 		// spawn delivery man
-		dm = (EntityDeliveryMan) EntityList.createEntityInWorld("DeliveryMan", world); 
-		
+		dm = (EntityDeliveryMan) EntityList.createEntityInWorld("DeliveryMan", world);
+
 		// scan for first free block near chest
 		Vec3D spawnPoint = scanForBlockNearPoint(world, 0, i, j, k, 1, 0, 1);
 		if(spawnPoint==null)
 			spawnPoint = scanForBlockNearPoint(world, Block.snow.blockID, i, j, k, 1, 0, 1);
-		
+
 		if(spawnPoint!=null)
 		{
 			dm.setPosition(spawnPoint.xCoord, spawnPoint.yCoord, spawnPoint.zCoord);
 			dm.setHomePosition(i, j, k);
 			world.entityJoinedWorld(dm);
 		}
+		dm.findRouteName();
 	}
-	
+
 	public void onBlockRemoval(World world, int i, int j, int k)
 	{
 		//EntityDeliveryMan dm = getWorkerAround(world, i,j,k);
@@ -167,7 +172,7 @@ public class BlockHutWarehouse extends BlockHut {
 			dm.isDead=true;
 		}
 	}
-	
+
 	public EntityDeliveryMan getWorkerAround(World world, int i, int j, int k)
 	{
 		List list = world.getEntitiesWithinAABB(EntityDeliveryMan.class, this.getCollisionBoundingBoxFromPool(world, i, j, k).expand(workingRange, 30, workingRange));
@@ -178,28 +183,38 @@ public class BlockHutWarehouse extends BlockHut {
 				}
 			}
 		}
-		
+
+		return null;
+	}
+	public EntityDeliveryMan getDeliverymanAround2(World world, int i, int j, int k)
+	{
+		List l = world.getLoadedEntityList();
+		for (int c=0;c<l.size(); c++)
+			if (l.get(c) instanceof EntityDeliveryMan)
+				return (EntityDeliveryMan) l.get(c);
 		return null;
 	}
 	
-	public int getBlockTextureFromSide(int side)
-    {
-       if(side==1)
-       {
-          // Workshop top
-          return textureID;
-       }
-        return blockIndexInTexture;
-    }
 	
+	public int getBlockTextureFromSide(int side)
+	{
+		if(side==1)
+		{
+			// Workshop top
+			return textureID;
+		}
+		return blockIndexInTexture;
+	}
+
 	public int getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l)
-    {
+	{
 		if(l == 1)
-        {
-            return textureID;
-        }
+		{
+			return textureID;
+		}
 		else
 			return super.getBlockTexture(iblockaccess, i, j, k, l);
-    }
-    
+	}
+
 }
+

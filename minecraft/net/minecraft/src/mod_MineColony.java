@@ -16,6 +16,9 @@ public class mod_MineColony extends BaseMod {
 	public static int blockFarmerID = 99;
 	public static int blockBankID = 100;
 	public static int blockBuilderID = 101;
+	public static int blockCitizenID = 102;
+	public static int blockTownHallID = 103;
+	public static int blockMarketID = 104;
 	
 	private static final Properties minecolProps = new Properties();
 
@@ -25,6 +28,8 @@ public class mod_MineColony extends BaseMod {
 	public static Block hutFarmer;
 	public static Block hutBank;
 	public static Block hutBuilder;
+	public static Block hutCitizen;
+	public static Block hutTownHall;
 	
 	public static Item scepterGold;
 	public static Item scepterSteel;
@@ -110,6 +115,14 @@ public class mod_MineColony extends BaseMod {
 
 		recipes.addRecipe(new ItemStack(blockBuilderID, 1,0),
 				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Item.doorWood });
+
+		//Civilian
+		recipes.addRecipe(new ItemStack(blockCitizenID, 1,0),
+				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.dirt });
+
+		//Civilian
+		recipes.addRecipe(new ItemStack(blockTownHallID, 1,0),
+				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.cobblestone });
 	}
 
 
@@ -124,6 +137,7 @@ public class mod_MineColony extends BaseMod {
 			blockWarehouseID = Integer.parseInt(minecolProps.getProperty("WarehouseBlockID"));
 			blockBankID = Integer.parseInt(minecolProps.getProperty("BankBlockID"));
 			blockBuilderID = Integer.parseInt(minecolProps.getProperty("BuilderBlockID"));
+			blockCitizenID = Integer.parseInt(minecolProps.getProperty("CitizenBlockID"));
 			f.close();
 		}
 		catch (IOException e) {
@@ -146,6 +160,10 @@ public class mod_MineColony extends BaseMod {
 		hutBank = (new BlockHutBank(blockBankID,overrideID)).setHardness(2.5F).setStepSound(Block.soundWoodFootstep).setBlockName("hutBank");
 		overrideID = ModLoader.addOverride("/terrain.png", "/Block_hutBuilder.png");
 		hutBuilder = (new BlockHutBuilder(blockBuilderID,overrideID)).setHardness(2.5F).setStepSound(Block.soundWoodFootstep).setBlockName("hutBuilder");
+		overrideID = ModLoader.addOverride("/terrain.png", "/Block_hutCitizen.png");
+		hutCitizen = (new BlockHutCitizen(blockCitizenID,overrideID)).setHardness(2.5F).setStepSound(Block.soundWoodFootstep).setBlockName("hutCitizen");
+		overrideID = ModLoader.addOverride("/terrain.png", "/Block_hutTownHall.png");
+		hutTownHall = (new BlockHutTownHall(blockTownHallID,overrideID)).setHardness(2.5F).setStepSound(Block.soundWoodFootstep).setBlockName("hutTownhall");
 
 		//blocks
 		
@@ -173,6 +191,8 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.RegisterBlock(hutFarmer);
 		ModLoader.RegisterBlock(hutBank);
 		ModLoader.RegisterBlock(hutBuilder);
+		ModLoader.RegisterBlock(hutCitizen);
+		ModLoader.RegisterBlock(hutTownHall);
 
 		//entitys
 		ModLoader.RegisterEntityID(EntityLumberjack.class, "Lumberjack", ModLoader.getUniqueEntityId());
@@ -180,6 +200,7 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.RegisterEntityID(EntityDeliveryMan.class, "DeliveryMan", ModLoader.getUniqueEntityId());
 		ModLoader.RegisterEntityID(EntityFarmer.class, "Farmer", ModLoader.getUniqueEntityId());
 		ModLoader.RegisterEntityID(EntityBuilder.class, "Builder", ModLoader.getUniqueEntityId());
+		ModLoader.RegisterEntityID(EntityCitizen.class, "Citizen", ModLoader.getUniqueEntityId());
 
 
 		//register names
@@ -188,14 +209,17 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.AddName(mod_MineColony.hutLumberjack, "Lumberjack's chest");
 		ModLoader.AddName(mod_MineColony.hutMiner, "Miner's chest");
 		ModLoader.AddName(mod_MineColony.hutWarehouse, "Delivery man's chest");
+		ModLoader.AddName(mod_MineColony.hutFarmer, "Farmer's chest");
 		ModLoader.AddName(mod_MineColony.hutBank, "Bank");
 		ModLoader.AddName(mod_MineColony.hutBuilder, "Builder's chest");
-		ModLoader.AddName(mod_MineColony.hutFarmer, "Farmer's chest");
+		ModLoader.AddName(mod_MineColony.hutCitizen, "Citizen's chest");
+		ModLoader.AddName(mod_MineColony.hutCitizen, "Townhall");
 		ModLoader.AddName(mod_MineColony.moneyGold, "Gold coin");
 		ModLoader.AddName(mod_MineColony.moneySilver, "Silver coin");
 		ModLoader.AddName(mod_MineColony.moneyBronze, "Bronze coin");
 
 		ModLoader.RegisterTileEntity(TileEntityChanger.class, "Changer");
+		ModLoader.RegisterTileEntity(TileEntityInformator.class, "Informator");
 
 		AddRecipes(CraftingManager.getInstance());
 	}
@@ -205,12 +229,15 @@ public class mod_MineColony extends BaseMod {
 		map.put(EntityMiner.class, new RenderBiped(new ModelBiped(), 0.5F));
 		map.put(EntityDeliveryMan.class, new RenderBiped(new ModelBiped(), 0.5F));
 		map.put(EntityFarmer.class, new RenderBiped(new ModelBiped(), 0.5F));
+		map.put(EntityCitizen.class, new RenderBiped(new ModelBiped(), 0.5F));
 	}
 
 	public GuiContainer OpenModGUI(EntityPlayer player, Object instance)
 	{
 		if ((instance instanceof TileEntityChanger))
 			return new GuiChanger(player.inventory, (TileEntityChanger)instance);
+		else if((instance instanceof TileEntityInformator))
+			return new GuiInformator(player.inventory, (TileEntityInformator)instance);
 		return null;
 	}
 
