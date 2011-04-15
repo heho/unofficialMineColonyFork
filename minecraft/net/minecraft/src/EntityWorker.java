@@ -799,7 +799,7 @@ void pathFindAndMove(Vec3D vec3d)
 
 	}
 
-	moveToVec=vec3d;
+	moveToVec=Vec3D.createVector(vec3d.xCoord, vec3d.yCoord, vec3d.zCoord);
 	if (rpe!=null)
 	{
 		isJumping=false;
@@ -818,7 +818,7 @@ void pathFindAndMove(Vec3D vec3d)
 
 				//System.out.println(rpe.points[rpeIdx+2]);
 
-				vec3d=Vec3D.createVector(rpe.points[rpeIdx+2].xCoord,rpe.points[rpeIdx+2].yCoord,rpe.points[rpeIdx+2].zCoord) ;
+				moveToVec=Vec3D.createVector(rpe.points[rpeIdx+2].xCoord,rpe.points[rpeIdx+2].yCoord,rpe.points[rpeIdx+2].zCoord) ;
 				//				System.out.println(" my pos is " + iPosX + " " + iPosY + " " + iPosZ + " walking to " + vec3d);
 				if (pt2.yCoord>iPosY)
 					isJumping=true;				

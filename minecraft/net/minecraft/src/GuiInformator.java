@@ -12,8 +12,8 @@ public class GuiInformator extends GuiContainer
     public GuiInformator(InventoryPlayer inventoryplayer, TileEntityInformator tileentityinformator)
     {
         super(new CraftingInventoryInformatorCB(inventoryplayer, tileentityinformator));
-		xSize = 176;
-        ySize = 223;
+		xSize = 174;
+        ySize = 246;
         informator = tileentityinformator;
     }
 

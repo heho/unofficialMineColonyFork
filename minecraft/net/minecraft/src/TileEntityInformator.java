@@ -4,36 +4,11 @@ package net.minecraft.src;
 // Decompiler options: packimports(3) braces deadcode
 
 public class TileEntityInformator extends TileEntity
-    implements IInventory
 {
 
     public TileEntityInformator()
     {
 
-    }
-
-    public int getSizeInventory()
-    {
-        return 0;
-    }
-
-    public ItemStack getStackInSlot(int i)
-    {
-        return null;
-    }
-
-    public ItemStack decrStackSize(int i, int j)
-    {
-        return null;
-    }
-
-    public void setInventorySlotContents(int i, ItemStack itemstack)
-    {
-    }
-
-    public String getInvName()
-    {
-        return "Informator";
     }
 
     public void readFromNBT(NBTTagCompound nbttagcompound)
@@ -45,11 +20,6 @@ public class TileEntityInformator extends TileEntity
     {
         super.writeToNBT(nbttagcompound);
 
-    }
-
-    public int getInventoryStackLimit()
-    {
-        return 0;
     }
 
     public void updateEntity()

@@ -26,7 +26,7 @@ public class EntityDeliveryMan extends EntityWorker {
 		super(world);
 		texture = "/mob/deliveryman.png";
 		//texture = "/mob/char.png";
-		setSize(0.9F, .9F);
+		setSize(0.9F, 1.3F);
 		defaultHoldItem = null;
 		currentAction = actionFindNextCheckpoint;
 		currentCheckPoint = 0;
@@ -292,8 +292,8 @@ public class EntityDeliveryMan extends EntityWorker {
 		case actionGoToNextCheckpoint:
 			// allow 2 Y points grace
             Vec3D entVec = Vec3D.createVector(posX, posY, posZ);
-			if (Math.abs(posY-destPoint.yCoord)<=2)
-				Vec3D.createVector(posX, destPoint.yCoord, posZ);
+            if (Math.abs(posY-destPoint.yCoord)<=6)
+                entVec=Vec3D.createVector(posX, destPoint.yCoord, posZ);
 			if (entVec==null)
 				break;
 			if(destPoint!=null && destPoint.distanceTo(entVec)<=3)

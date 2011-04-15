@@ -1316,7 +1316,7 @@ ArrayList<String> readFloorPlanFromFile(String signText1, String signText2, Stri
 		{
 			mc_path = (new StringBuilder()).append(Minecraft.getMinecraftDir()).toString();
 			mc_path = (new StringBuilder()).append(Minecraft.getMinecraftDir().getCanonicalPath()).toString();
-			mc_path = mc_path + "\\resources\\floorplan\\" + signText2 + ".floorplan";
+			mc_path = mc_path + "/resources/floorplan/" + signText2 + ".floorplan";
 			//mc_path = (new StringBuilder()).append(Minecraft.getMinecraftDir().getCanonicalPath()).append("/1.floorplan").toString();
 			//System.out.println(mc_path);
 			FileReader fr = new FileReader(mc_path);

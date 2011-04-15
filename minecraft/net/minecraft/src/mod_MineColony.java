@@ -120,7 +120,7 @@ public class mod_MineColony extends BaseMod {
 		recipes.addRecipe(new ItemStack(blockCitizenID, 1,0),
 				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.dirt });
 
-		//Civilian
+		//TownHall
 		recipes.addRecipe(new ItemStack(blockTownHallID, 1,0),
 				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.cobblestone });
 	}
@@ -141,6 +141,11 @@ public class mod_MineColony extends BaseMod {
 			f.close();
 		}
 		catch (IOException e) {
+			ModLoader.getLogger().warning("[MineColony] could not open conf file.");
+			ModLoader.getLogger().warning("[MineColony] using default Block IDs\n");
+		}
+		catch (NumberFormatException e)
+		{
 			ModLoader.getLogger().warning("[MineColony] could not open conf file.");
 			ModLoader.getLogger().warning("[MineColony] using default Block IDs\n");
 		}
@@ -219,7 +224,7 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.AddName(mod_MineColony.moneyBronze, "Bronze coin");
 
 		ModLoader.RegisterTileEntity(TileEntityChanger.class, "Changer");
-		ModLoader.RegisterTileEntity(TileEntityInformator.class, "Informator");
+		ModLoader.RegisterTileEntity(TileEntityTownHall.class, "TownHall");
 
 		AddRecipes(CraftingManager.getInstance());
 	}
@@ -236,8 +241,8 @@ public class mod_MineColony extends BaseMod {
 	{
 		if ((instance instanceof TileEntityChanger))
 			return new GuiChanger(player.inventory, (TileEntityChanger)instance);
-		else if((instance instanceof TileEntityInformator))
-			return new GuiInformator(player.inventory, (TileEntityInformator)instance);
+		else if((instance instanceof TileEntityTownHall))
+			return new GuiTownHall(player.inventory, (TileEntityTownHall)instance);
 		return null;
 	}
 
