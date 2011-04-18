@@ -1,0 +1,110 @@
+package net.minecraft.src;
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+
+import java.util.ArrayList;
+
+// Decompiler options: packimports(3) braces deadcode
+
+public class TileEntityMarket extends TileEntityInformator
+{
+
+    public TileEntityMarket()
+    {
+		townHallPosition = null;
+    }
+
+    public void readFromNBT(NBTTagCompound nbttagcompound)
+    {
+        super.readFromNBT(nbttagcompound);
+		townHallX = nbttagcompound.getDouble("townhallPosX");
+		townHallY = nbttagcompound.getDouble("townhallPosY");
+		townHallZ = nbttagcompound.getDouble("townhallPosZ");
+		townHallPosition = Vec3D.createVector(townHallX, townHallY, townHallZ);
+    }
+
+    public void writeToNBT(NBTTagCompound nbttagcompound)
+    {
+        super.writeToNBT(nbttagcompound);
+		nbttagcompound.setDouble("townhallPosX", townHallX);
+		nbttagcompound.setDouble("townhallPosY", townHallY);
+		nbttagcompound.setDouble("townhallPosZ", townHallZ);
+    }
+
+    public void updateEntity()
+    {
+
+    }
+
+	public void setTownHall(int i, int j, int k, World world)
+	{
+		if(this.townHallPosition == null)
+		{
+			Vec3D nextInfluenced = scanForBlockNearPoint(world, mod_MineColony.hutMarket.blockID, i,j,k, 100, 30, 100);
+			if(nextInfluenced != null)
+			{
+				TileEntityMarket market = (TileEntityMarket) (world.getBlockTileEntity((int)nextInfluenced.xCoord, (int)nextInfluenced.yCoord, (int)nextInfluenced.zCoord));
+				this.townHallX = market.townHallPosition.xCoord;
+				this.townHallY = market.townHallPosition.yCoord;
+				this.townHallZ = market.townHallPosition.zCoord;
+				System.out.println("g");
+			}
+			if(nextInfluenced == null)
+			{
+				nextInfluenced = scanForBlockNearPoint(world, mod_MineColony.hutTownHall.blockID, i,j,k, 100, 30, 100);
+				this.townHallPosition = nextInfluenced;
+				this.townHallX = nextInfluenced.xCoord;
+				this.townHallY = nextInfluenced.yCoord;
+				this.townHallZ = nextInfluenced.zCoord;
+				System.out.println("f");
+			}
+
+			if(this.townHallPosition != null)
+			{
+				TileEntityTownHall townhall = (TileEntityTownHall) world.getBlockTileEntity((int)this.townHallPosition.xCoord, (int)this.townHallPosition.yCoord, (int)this.townHallPosition.zCoord);
+				townhall.marketXPositions.add((double)this.xCoord);
+				townhall.marketYPositions.add((double)this.yCoord);
+				townhall.marketZPositions.add((double)this.zCoord);
+			}
+		}
+	}
+
+	protected Vec3D scanForBlockNearPoint(World world, int blockId, int x, int y, int z,
+		int rx, int ry, int rz) {
+
+	Vec3D entityVec = Vec3D.createVector(x, y, z);
+
+	Vec3D closestVec = null;
+	double minDistance = 999999999;
+
+	for (int i = x - rx; i <= x + rx; i++)
+		for (int j = y - ry; j <= y + ry; j++)
+			for (int k = z - rz; k <= z + rz; k++) {
+				if (world.getBlockId(i, j, k) == blockId) {
+					Vec3D tempVec = Vec3D.createVector(i, j, k);
+
+					if ((closestVec == null
+							|| tempVec.distanceTo(entityVec) < minDistance) && tempVec.distanceTo(entityVec) != 0) {
+						closestVec = tempVec;
+						minDistance = closestVec.distanceTo(entityVec);
+					}
+				}
+			}
+
+	return closestVec;
+	}
+
+    public boolean canInteractWith(EntityPlayer entityplayer)
+    {
+        if(worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this)
+        {
+            return false;
+        }
+        return entityplayer.getDistanceSq((double)xCoord + 0.5D, (double)yCoord + 0.5D, (double)zCoord + 0.5D) <= 64D;
+    }
+
+	protected Vec3D townHallPosition;
+	protected double townHallX;
+	protected double townHallY;
+	protected double townHallZ;
+}

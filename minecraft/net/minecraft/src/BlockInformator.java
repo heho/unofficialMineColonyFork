@@ -77,29 +77,29 @@ public class BlockInformator extends BlockContainer
         }
     }
 
-		protected Vec3D scanForBlockNearPoint(World world, int blockId, int x, int y, int z,
-			int rx, int ry, int rz) {
+	protected Vec3D scanForBlockNearPoint(World world, int blockId, int x, int y, int z,
+		int rx, int ry, int rz) {
 
-		Vec3D entityVec = Vec3D.createVector(x, y, z);
+	Vec3D entityVec = Vec3D.createVector(x, y, z);
 
-		Vec3D closestVec = null;
-		double minDistance = 999999999;
+	Vec3D closestVec = null;
+	double minDistance = 999999999;
 
-		for (int i = x - rx; i <= x + rx; i++)
-			for (int j = y - ry; j <= y + ry; j++)
-				for (int k = z - rz; k <= z + rz; k++) {
-					if (world.getBlockId(i, j, k) == blockId) {
-						Vec3D tempVec = Vec3D.createVector(i, j, k);
+	for (int i = x - rx; i <= x + rx; i++)
+		for (int j = y - ry; j <= y + ry; j++)
+			for (int k = z - rz; k <= z + rz; k++) {
+				if (world.getBlockId(i, j, k) == blockId) {
+					Vec3D tempVec = Vec3D.createVector(i, j, k);
 
-						if (closestVec == null
-								|| tempVec.distanceTo(entityVec) < minDistance) {
-							closestVec = tempVec;
-							minDistance = closestVec.distanceTo(entityVec);
-						}
+					if ((closestVec == null
+							|| tempVec.distanceTo(entityVec) < minDistance) && tempVec.distanceTo(entityVec) != 0) {
+						closestVec = tempVec;
+						minDistance = closestVec.distanceTo(entityVec);
 					}
 				}
+			}
 
-		return closestVec;
+	return closestVec;
 	}
 
 	protected int findTopGround(World world, int x, int z) {

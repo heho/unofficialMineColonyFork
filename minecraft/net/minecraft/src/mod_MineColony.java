@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class mod_MineColony extends BaseMod {
 
@@ -30,12 +31,14 @@ public class mod_MineColony extends BaseMod {
 	public static Block hutBuilder;
 	public static Block hutCitizen;
 	public static Block hutTownHall;
+	public static Block hutMarket;
 	
 	public static Item scepterGold;
 	public static Item scepterSteel;
 	public static Item moneyGold;
 	public static Item moneySilver;
 	public static Item moneyBronze;
+	public static Item dividers;
 
 
 	public void AddRecipes(CraftingManager recipes) {
@@ -51,6 +54,11 @@ public class mod_MineColony extends BaseMod {
 		//money will be changeable at a bank)
 		recipes.addShapelessRecipe(new ItemStack(mod_MineColony.moneyGold, 5),
 				new Object[] { Item.ingotGold });
+
+		//dividers
+		recipes.addRecipe(new ItemStack(mod_MineColony.dividers, 1),
+				new Object[] { " X ", "X X", "X X", Character.valueOf('X'), Item.ingotIron});
+
 
 		//Individual Huts
 
@@ -123,8 +131,11 @@ public class mod_MineColony extends BaseMod {
 		//TownHall
 		recipes.addRecipe(new ItemStack(blockTownHallID, 1,0),
 				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.cobblestone });
-	}
 
+		//Market
+		recipes.addRecipe(new ItemStack(blockMarketID, 1,0),
+				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.sand });
+	}
 
 	public mod_MineColony() {
 		try {
@@ -169,6 +180,8 @@ public class mod_MineColony extends BaseMod {
 		hutCitizen = (new BlockHutCitizen(blockCitizenID,overrideID)).setHardness(2.5F).setStepSound(Block.soundWoodFootstep).setBlockName("hutCitizen");
 		overrideID = ModLoader.addOverride("/terrain.png", "/Block_hutTownHall.png");
 		hutTownHall = (new BlockHutTownHall(blockTownHallID,overrideID)).setHardness(2.5F).setStepSound(Block.soundWoodFootstep).setBlockName("hutTownhall");
+		overrideID = ModLoader.addOverride("/terrain.png", "/Block_hutMarket.png");
+		hutMarket = (new BlockHutMarket(blockMarketID,overrideID)).setHardness(2.5F).setStepSound(Block.soundWoodFootstep).setBlockName("hutMarket");
 
 		//blocks
 		
@@ -186,6 +199,9 @@ public class mod_MineColony extends BaseMod {
 		overrideID = ModLoader.addOverride("/gui/items.png", "/gui/Item_moneyBronze.png");
 		moneyBronze = (new ItemMoney(ModLoader.getUniqueEntityId())).setIconIndex(overrideID).setFull3D().setItemName("moneyBronze");
 
+		overrideID = ModLoader.addOverride("/gui/items.png", "/gui/Item_dividers.png");
+		dividers = (new ItemDividers(ModLoader.getUniqueEntityId())).setIconIndex(overrideID).setFull3D().setItemName("Dividers");
+
 
 		// These return int overrides for something
 
@@ -198,6 +214,7 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.RegisterBlock(hutBuilder);
 		ModLoader.RegisterBlock(hutCitizen);
 		ModLoader.RegisterBlock(hutTownHall);
+		ModLoader.RegisterBlock(hutMarket);
 
 		//entitys
 		ModLoader.RegisterEntityID(EntityLumberjack.class, "Lumberjack", ModLoader.getUniqueEntityId());
@@ -218,13 +235,16 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.AddName(mod_MineColony.hutBank, "Bank");
 		ModLoader.AddName(mod_MineColony.hutBuilder, "Builder's chest");
 		ModLoader.AddName(mod_MineColony.hutCitizen, "Citizen's chest");
-		ModLoader.AddName(mod_MineColony.hutCitizen, "Townhall");
+		ModLoader.AddName(mod_MineColony.hutTownHall, "Townhall");
+		ModLoader.AddName(mod_MineColony.hutMarket, "Market");
 		ModLoader.AddName(mod_MineColony.moneyGold, "Gold coin");
 		ModLoader.AddName(mod_MineColony.moneySilver, "Silver coin");
 		ModLoader.AddName(mod_MineColony.moneyBronze, "Bronze coin");
+		ModLoader.AddName(mod_MineColony.dividers, "Dividers");
 
 		ModLoader.RegisterTileEntity(TileEntityChanger.class, "Changer");
 		ModLoader.RegisterTileEntity(TileEntityTownHall.class, "TownHall");
+		ModLoader.RegisterTileEntity(TileEntityMarket.class, "Market");
 
 		AddRecipes(CraftingManager.getInstance());
 	}

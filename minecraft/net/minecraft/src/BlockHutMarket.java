@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BlockHutTownHall extends BlockInformator
+public class BlockHutMarket extends BlockInformator
 {
-
-	public BlockHutTownHall(int blockID, int _textureID) {
+	public BlockHutMarket(int blockID, int _textureID) {
 		super(blockID);
 		textureID = _textureID;
-		workingRange = 100;
+		workingRange = 10;
 	}
 
 	protected TileEntity getBlockEntity()
     {
-        return new TileEntityTownHall();
+        return new TileEntityMarket();
 		//return null;
     }
+
 
 	public boolean canPlaceBlockAt(World world, int i, int j, int k)
 	{
 		// check if there are other chests nearby
-		Vec3D chestPos = scanForBlockNearPoint(world, mod_MineColony.hutTownHall.blockID, i,j,k, workingRange, 30, workingRange);
+		Vec3D chestPos = scanForBlockNearPoint(world, mod_MineColony.hutMarket.blockID, i,j,k, workingRange, 15, workingRange);
 		if (chestPos != null)
 			return false;
 
@@ -56,18 +56,7 @@ public class BlockHutTownHall extends BlockInformator
 				}
 		}
 		else
-		{
-			if(world.multiplayerWorld)
-			{
-				return true;
-			} else
-			{
-				TileEntityTownHall tileentitytownhall = (TileEntityTownHall)world.getBlockTileEntity(i, j, k);
-				GuiTownHall guiTownHall = new GuiTownHall(entityplayer.inventory, tileentitytownhall);
-				ModLoader.OpenGUI(entityplayer, guiTownHall);
-				return true;
-			}
-		}
+			return super.blockActivated(world, i, j, k, entityplayer);
 
 		return true;
 
@@ -76,9 +65,16 @@ public class BlockHutTownHall extends BlockInformator
 	public void onBlockAdded(World world, int i, int j, int k) {
 		super.onBlockAdded(world, i, j, k);
 
-		world.setBlockWithNotify(i, j, k, mod_MineColony.hutTownHall.blockID);
-		TileEntityTownHall tileentitytownhall = (TileEntityTownHall) world
+		world.setBlockWithNotify(i, j, k, mod_MineColony.hutMarket.blockID);
+		TileEntityMarket tileEntityMarket = (TileEntityMarket) world
 		.getBlockTileEntity(i, j, k);
+
+		tileEntityMarket.setTownHall(i, j, k, world);
+	}
+
+	public void getNextTownHall(World world, int i, int j, int k, TileEntityMarket tileEntity)
+	{
+
 	}
 
 	public void updateTick(World world, int i, int j, int k, Random random)
@@ -86,13 +82,22 @@ public class BlockHutTownHall extends BlockInformator
 		super.updateTick(world, i, j, k, random);
 	}
 
+
 	public void onBlockRemoval(World world, int i, int j, int k)
 	{
-		/*inhabitants = getBuilderAround(world, i,j,k);
-		if(inhabitants!=null)
+		TileEntityMarket market = (TileEntityMarket) (world.getBlockTileEntity(i, j, k));
+		if(market.townHallPosition != null)
 		{
-			inhabitants.isDead=true;
-		}*/
+			System.out.println(market.townHallX);
+			System.out.println(market.townHallY);
+			System.out.println(market.townHallZ);
+			TileEntityTownHall townhall = (TileEntityTownHall) (world.getBlockTileEntity((int)market.townHallX, (int)market.townHallY, (int)market.townHallZ));
+			if(townhall == null)
+			{
+				return;
+			}
+			townhall.deleteMarket(i, j, k);
+		}
 	}
 
 	public int getBlockTextureFromSide(int side)

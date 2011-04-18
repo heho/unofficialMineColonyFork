@@ -65,6 +65,7 @@ public class GuiTownHall extends GuiInformator
 			fontRenderer.drawString("Esquires:", 14, 156, 0x011f36);
 			fontRenderer.drawString("Nobles:", 14, 166, 0x011f36);
 			fontRenderer.drawString("Clerics:", 14,176, 0x011f36);
+			fontRenderer.drawString("Markets:", 6 ,188, 0x011f36);
 
 			fontRenderer.drawString(townhall.cityName, 80, 18, 0x3f5464);
 			fontRenderer.drawString((new StringBuilder().append(townhall.numberOfSettlers).toString()), 120, 42, 0x3f5464);
@@ -80,7 +81,9 @@ public class GuiTownHall extends GuiInformator
 			fontRenderer.drawString((new StringBuilder().append(townhall.taxHeightforEsquires).toString()), 120, 156, 0x3f5464);
 			fontRenderer.drawString((new StringBuilder().append(townhall.taxHeightforNobles).toString()), 120, 166, 0x3f5464);
 			fontRenderer.drawString((new StringBuilder().append(townhall.taxHeightforClerics).toString()), 120,176, 0x3f5464);
+			fontRenderer.drawString((new StringBuilder().append(townhall.marketXPositions.size()).toString()), 120,188, 0x3f5464);
 		}
+
     }
 
     protected void drawGuiContainerBackgroundLayer(float f)

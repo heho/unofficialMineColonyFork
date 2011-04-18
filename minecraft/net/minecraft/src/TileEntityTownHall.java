@@ -24,7 +24,9 @@ public class TileEntityTownHall extends TileEntityInformator
 		taxHeightforEsquires = 0;
 		taxHeightforNobles = 0;
 		taxHeightforClerics = 0;
-		marketPositions = new ArrayList<Vec3D>();
+		marketXPositions = new ArrayList<Double>();
+		marketYPositions = new ArrayList<Double>();
+		marketZPositions = new ArrayList<Double>();
     }
 
     public void readFromNBT(NBTTagCompound nbttagcompound)
@@ -47,12 +49,10 @@ public class TileEntityTownHall extends TileEntityInformator
 
 		for(int i = 0; i < numberOfMarkets; i++)
 		{
-			double posX = nbttagcompound.getDouble((new StringBuilder().append("marketPosX").append(i).toString()));
-			double posY = nbttagcompound.getDouble((new StringBuilder().append("marketPosY").append(i).toString()));
-			double posZ = nbttagcompound.getDouble((new StringBuilder().append("marketPosZ").append(i).toString()));
-			marketPositions.add(Vec3D.createVector(posX, posY, posZ));
+			marketXPositions.add(nbttagcompound.getDouble((new StringBuilder().append("marketPosX").append(i).toString())));
+			marketYPositions.add(nbttagcompound.getDouble((new StringBuilder().append("marketPosY").append(i).toString())));
+			marketZPositions.add(nbttagcompound.getDouble((new StringBuilder().append("marketPosZ").append(i).toString())));
 		}
-
     }
 
     public void writeToNBT(NBTTagCompound nbttagcompound)
@@ -72,19 +72,40 @@ public class TileEntityTownHall extends TileEntityInformator
 		nbttagcompound.setInteger("tEsquires", taxHeightforEsquires);
 		nbttagcompound.setInteger("tNobles", taxHeightforNobles);
 		nbttagcompound.setInteger("tClerics", taxHeightforClerics);
-		nbttagcompound.setInteger("nMarkets", marketPositions.size());
+		nbttagcompound.setInteger("nMarkets", marketXPositions.size());
 
-		for(int i = 0; i < marketPositions.size(); i++)
+		for(int i = 0; i < marketXPositions.size(); i++)
 		{
-			nbttagcompound.setDouble((new StringBuilder().append("marketPosX").append(i).toString()), marketPositions.get(i).xCoord);
-			nbttagcompound.setDouble((new StringBuilder().append("marketPosY").append(i).toString()), marketPositions.get(i).yCoord);
-			nbttagcompound.setDouble((new StringBuilder().append("marketPosZ").append(i).toString()), marketPositions.get(i).zCoord);
+			nbttagcompound.setDouble((new StringBuilder().append("marketPosX").append(i).toString()), marketXPositions.get(i));
+			nbttagcompound.setDouble((new StringBuilder().append("marketPosY").append(i).toString()), marketYPositions.get(i));
+			nbttagcompound.setDouble((new StringBuilder().append("marketPosZ").append(i).toString()), marketZPositions.get(i));
 		}
     }
 
     public void updateEntity()
     {
     }
+
+	public void deleteMarket(int i, int j, int k)
+	{
+		System.out.println("x");
+		for(int h = 0; h < marketXPositions.size(); h++)
+		{
+			System.out.println(marketXPositions.get(h));
+			System.out.println(marketYPositions.get(h));
+			System.out.println(marketZPositions.get(h));
+			System.out.println(i);
+			System.out.println(j);
+			System.out.println(k);
+			
+			if(marketXPositions.get(h) == i && marketYPositions.get(h) == j && marketZPositions.get(h) == k)
+			{
+				marketXPositions.remove(h);
+				marketYPositions.remove(h);
+				marketZPositions.remove(h);
+			}
+		}
+	}
 
     public boolean canInteractWith(EntityPlayer entityplayer)
     {
@@ -108,5 +129,7 @@ public class TileEntityTownHall extends TileEntityInformator
 	public int taxHeightforEsquires;
 	public int taxHeightforNobles;
 	public int taxHeightforClerics;
-	public ArrayList<Vec3D> marketPositions;
+	public ArrayList<Double> marketXPositions;
+	public ArrayList<Double> marketYPositions;
+	public ArrayList<Double> marketZPositions;
 }
