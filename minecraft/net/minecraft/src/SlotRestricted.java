@@ -3,9 +3,19 @@ package net.minecraft.src;
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) braces deadcode 
 
+import java.util.ArrayList;
 
 public class SlotRestricted extends Slot
 {
+    public SlotRestricted(IInventory iinventory, int i, int j, int k,
+		boolean canBeFilled)
+    {
+		super(iinventory, i, j, k);
+		inventory = iinventory;
+        slotIndex = i;
+		this.validItems = new ArrayList<Item>();
+		this.canBeFilled = canBeFilled;
+    }
 
     public SlotRestricted(IInventory iinventory, int i, int j, int k,
 		boolean canBeFilled, Item validItem)
@@ -13,20 +23,46 @@ public class SlotRestricted extends Slot
 		super(iinventory, i, j, k);
 		inventory = iinventory;
         slotIndex = i;
+		this.validItems = new ArrayList<Item>();
 		this.canBeFilled = canBeFilled;
-		this.validItem = validItem;
+		if(validItem != null)
+		{
+			this.validItems.add(validItem);
+		}
+    }
+
+	public SlotRestricted(IInventory iinventory, int i, int j, int k,
+		boolean canBeFilled, ArrayList<Item> validItems)
+    {
+		super(iinventory, i, j, k);
+		inventory = iinventory;
+        slotIndex = i;
+		this.validItems = new ArrayList<Item>();
+		this.canBeFilled = canBeFilled;
+		if(validItems != null)
+		{
+			this.validItems.addAll(validItems);
+		}
     }
 
     public boolean isItemValid(ItemStack itemstack)
     {
-		if(this.validItem == null)
+		if(this.validItems.size()== 0)
 		{
 			return true;
 		}
 		else
 		{
-			if(itemstack.getItem().getItemName() == this.validItem.getItemName()
-				&& this.canBeFilled == true)
+			boolean isValid = false;
+			for(int i = 0; i < validItems.size(); i++)
+			{
+				if(itemstack.getItem().getItemName() == validItems.get(i).getItemName())
+				{
+					isValid = true;
+				}
+			}
+
+			if(isValid && this.canBeFilled == true)
 			{
 				return true;
 			}
@@ -49,7 +85,7 @@ public class SlotRestricted extends Slot
     }
 
 	private final boolean canBeFilled;
-	private final Item validItem;
+	private final ArrayList<Item> validItems;
     private final int slotIndex;
     private final IInventory inventory;
     public int field_20007_a;

@@ -3,8 +3,8 @@ package net.minecraft.src;
 public class RalphPathfinder {
     int pathSegsToTry;
     public int maxPathSegsToTry=2000;
-    public RalphPathFinderBlockWeights getBlockWeights=null; 
-    
+    public RalphPathFinderBlockWeights getBlockWeights=null;
+
     public RalphPathfinder(IBlockAccess iblockaccess)
     {
         path = new RalphPath();
@@ -20,9 +20,9 @@ public class RalphPathfinder {
         pathOptions = new PathPoint[32];
         worldMap = iblockaccess;
         getBlockWeights=w;
-    }    
-    
-    
+    }
+
+
     public RalphPathEntity createEntityPathTo(Entity entity, Entity entity1, float f)
     {
         return createEntityPathTo(entity, entity1.posX, entity1.boundingBox.minY, entity1.posZ, f);
@@ -33,17 +33,18 @@ public class RalphPathfinder {
         return createEntityPathTo(entity, (float)i + 0.5F, (float)j + 0.5F, (float)k + 0.5F, f);
     }
 
-    public RalphPathEntity createEntityPathTo(Entity entity, int x, int y, int z, double d, double d1, double d2, 
+    public RalphPathEntity createEntityPathTo(Entity entity, int x, int y, int z, double d, double d1, double d2,
             float f)
     {
         path.clearPath();
         pointMap.clearMap();
         PathPoint pathpoint = openPoint(x, y, z);
-        
+
         // since y may be up in the air ... jumping, we find a suitable y
         pathpoint = openPoint(x, findGroundLevel(x, y, z), z);
 
         PathPoint pathpoint1 = openPoint(MathHelper.floor_double(d - (double)(entity.width / 2.0F)), MathHelper.floor_double(d1), MathHelper.floor_double(d2 - (double)(entity.width / 2.0F)));
+        pathpoint1 = openPoint((int) Math.floor(d), (int) Math.floor(d1),(int) Math.floor(d2));
         PathPoint pathpoint2 = new PathPoint(MathHelper.floor_float(entity.width + 1.0F), MathHelper.floor_float(entity.height + 1.0F), MathHelper.floor_float(entity.width + 1.0F));
         if (debug) System.out.println("tyring to a* path from " + pathpoint + " to " + pathpoint1);
 
@@ -51,13 +52,21 @@ public class RalphPathfinder {
         //    for (int i=-2; i<3; i++)
           //      for (int k=-2; k<3; k++)
             //    	System.out.println("neighbor block values of " + (x+i) + "y=" + (y+j) + "z=" + (k+z) + " is " + worldMap.getBlockId(x+i, y+j, z+k) + " " + worldMap.getBlockMaterial(x+i, y+j, z+k));
-                
+
         RalphPathEntity pathentity = addToPath(entity, pathpoint, pathpoint1, pathpoint2, f);
+
+        if (debug)
+        {
+            if (debug) System.out.println("tyring to a* path from " + pathpoint + " to " + pathpoint1);
+
+        	pathentity = addToPath(entity, pathpoint, pathpoint1, pathpoint2, f);
+        	debug=false;
+        }
         return pathentity;
     }
-    
-    
-    private RalphPathEntity createEntityPathTo(Entity entity, double d, double d1, double d2, 
+
+
+    private RalphPathEntity createEntityPathTo(Entity entity, double d, double d1, double d2,
             float f)
     {
         path.clearPath();
@@ -80,20 +89,21 @@ public class RalphPathfinder {
         path.addPoint(startPoint);
         PathPoint furthestPtReached = startPoint;
         pathSegsToTry=0;
-        while(!path.isPathEmpty()  &&  pathSegsToTry<maxPathSegsToTry) 
+        while(!path.isPathEmpty()  &&  pathSegsToTry<maxPathSegsToTry)
         {
         	pathSegsToTry++;
             PathPoint pathpoint4 = path.dequeue();
             if (debug)
               System.out.println("looking for neighbors of " + pathpoint4 + " and trying to reach " + destPoint);
-            if(pathpoint4.equals(destPoint)  ||  pathpoint4.distanceTo(destPoint)<=1)  // was 2
+            if(pathpoint4.equals(destPoint)  ||  pathpoint4.distanceTo(destPoint)<.5)  // was 2
             {
+            	//System.out.println("path found, trying to reach " + destPoint + " and settling with reaching " + pathpoint4);
                 return createEntityPath(startPoint,  pathpoint4);
             }
             if(pathpoint4.distanceTo(destPoint) < furthestPtReached.distanceTo(destPoint))
             {
                 furthestPtReached = pathpoint4;
-         
+
             }
 
            if (pathpoint4.xCoord==-92  && pathpoint4.zCoord==201)
@@ -104,23 +114,23 @@ public class RalphPathfinder {
             //        for (int i=-1; i<2; i++)
               //          for (int k=-1; k<2; k++)
               //         	System.out.println("neighbor block values of " + (pathpoint4.xCoord+i) + "y=" + (pathpoint4.yCoord+j) + "z=" + (k+pathpoint4.zCoord) + " is " + worldMap.getBlockId(pathpoint4.xCoord+i, pathpoint4.yCoord+j, pathpoint4.zCoord+k) + " " + worldMap.getBlockMaterial(pathpoint4.xCoord+i, pathpoint4.yCoord+j, pathpoint4.zCoord+k));
-         
+
             }
             pathpoint4.isFirst = true;
             int i = findPathOptionsR1(entity, pathpoint4, pathWidth, destPoint, f);
             //i = findPathOptions(entity, pathpoint4, pathWidth, destPoint, f);
             int j = 0;
-            while(j < i) 
+            while(j < i)
             {
                 PathPoint pathpoint5 = pathOptions[j];
-                
+
                 float f1;
-                
+
                 if (getBlockWeights==null)
                   f1 = pathpoint4.totalPathDistance + pathpoint4.distanceTo(pathpoint5);
                 else
                   f1 = pathpoint4.totalPathDistance + pathpoint4.distanceTo(pathpoint5)*(float) getBlockWeights.getWeight(pathpoint5.xCoord, pathpoint5.yCoord, pathpoint5.zCoord);
-                
+
                 if(!pathpoint5.isAssigned() || f1 < pathpoint5.totalPathDistance)
                 {
                     pathpoint5.previous = pathpoint4;
@@ -142,20 +152,22 @@ public class RalphPathfinder {
            if (debug)
         	   System.out.println(path.toString());
         }
-        
+
         //not reached, so either return null or the best so far.
         if(furthestPtReached == startPoint)
         {
- 
+        	System.out.println("starting from " + startPoint);
+            System.out.println("path really not found to " + destPoint);
+
             return null;
         } else
         {
-
+        	//System.out.println("settling for path found to " + furthestPtReached  + " instead of " + destPoint);
             return createEntityPath(startPoint, furthestPtReached);
         }
     }
 
-    
+
     private int findPathOptionsR1(Entity entity, PathPoint strtPt, PathPoint sizePoint, PathPoint destpoint2, float f)
     {
     	int i=0;
@@ -170,7 +182,7 @@ public class RalphPathfinder {
         	{
         	pathOptions[i]=p;
             i++;
-            }     
+            }
          p = getPossibleNeighbor(strtPt,strtPt.xCoord, strtPt.yCoord, strtPt.zCoord+1);
         if (p!=null)
         	{
@@ -182,10 +194,10 @@ public class RalphPathfinder {
         	{
         	pathOptions[i]=p;
             i++;
-            }         
+            }
         return i;
     }
-    
+
     boolean isGoodForMeStandOn(int x, int y, int z)
     {
     	if (debug) System.out.println("is good to stand on? block value of " + x + " " + y + " " + z + " is " + worldMap.getBlockId(x, y ,z));
@@ -196,15 +208,17 @@ public class RalphPathfinder {
     	if (debug) System.out.println("is passable block value of " + x + " " + y + " " + z + " is " + worldMap.getBlockId(x, y ,z));
     	//return (worldMap.getBlockId(x, y ,z)== 0  ||   worldMap.getBlockId(x, y ,z)==50);
     	Material material = worldMap.getBlockMaterial(x, y, z);
+    	if (worldMap.getBlockId(x, y, z)==Block.doorSteel.blockID ||
+    	    worldMap.getBlockId(x, y, z)==Block.doorWood.blockID) return true;
         return !material.getIsSolid();
     }
-    
+
     PathPoint getPossibleNeighbor(PathPoint strtPt, int x, int y, int z)
     {
         PathPoint answer = null;
         int b=worldMap.getBlockId(x, y,z);
 
-    
+
         if (debug) System.out.println("trying to jump down");
         if (isGoodForMeStandOn(x, y-2,z) &&  isPassable(x, y-1, z) && isPassable(x, y, z) && isPassable(x, y+1, z))
 		{  // can jump this neighbor
@@ -212,16 +226,16 @@ public class RalphPathfinder {
     		if (!answer.isFirst)
 		    	return answer;
 		}
-        if (debug) System.out.println("trying to walk straight accross");        
+        if (debug) System.out.println("trying to walk straight accross");
         if (isGoodForMeStandOn(x, y-1, z) &&  isPassable(x, y, z) && isPassable(x, y+1, z) )
 		{  // can jump this neighbor
     		answer= openPoint(x, y, z);
-  		
+
     		if (!answer.isFirst)
 		    	return answer;
 		}
-        if (debug) System.out.println("trying to jump up");  
-        if (isGoodForMeStandOn(x, y, z) &&  isPassable(x, y+1, z) && isPassable(x, y+2, z) 
+        if (debug) System.out.println("trying to jump up");
+        if (isGoodForMeStandOn(x, y, z) &&  isPassable(x, y+1, z) && isPassable(x, y+2, z)
         		&&  isPassable(strtPt.xCoord, strtPt.yCoord+2, strtPt.zCoord))
 		{  // can jump this neighbor
     		answer= openPoint(x, y+1, z);
@@ -232,8 +246,8 @@ public class RalphPathfinder {
 
         	return null;
     }
-    
-    
+
+
     private int findPathOptions(Entity entity, PathPoint pathpoint, PathPoint pathpoint1, PathPoint pathpoint2, float f)
     {
         int i = 0;
@@ -341,9 +355,9 @@ public class RalphPathfinder {
     private RalphPathEntity createEntityPath(PathPoint pathpoint, PathPoint pathpoint1)
     {
         int i = 1;
-        if (debug) 
+        if (debug)
         	System.out.println("");
-        
+
         for(PathPoint pathpoint2 = pathpoint1; pathpoint2.previous != null; pathpoint2 = pathpoint2.previous)
         {
             i++;
@@ -361,15 +375,15 @@ public class RalphPathfinder {
 
     public int findGroundLevel(int x, int y, int z)
     {
-        for (int j=0; j<100; j++)
+        for (int j=0; j<2; j++)
             if  (isGoodForMeStandOn(x, y-j-1, z))
           {
           	return y-j;
           }
         return y;
     }
-    
-    
+
+
     public boolean debug=false;
     private IBlockAccess worldMap;
     private RalphPath path;

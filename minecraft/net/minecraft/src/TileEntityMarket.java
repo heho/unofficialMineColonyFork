@@ -2,7 +2,7 @@ package net.minecraft.src;
 // Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
 
-import java.util.ArrayList;
+import java.lang.StringBuilder;
 
 // Decompiler options: packimports(3) braces deadcode
 
@@ -12,6 +12,11 @@ public class TileEntityMarket extends TileEntityInformator
     public TileEntityMarket()
     {
 		townHallPosition = null;
+		stalls = new EnumMarketStalls[4];
+		for(int i = 0; i < stalls.length; i++)
+		{
+			stalls[i] = EnumMarketStalls.EMPTY;
+		}
     }
 
     public void readFromNBT(NBTTagCompound nbttagcompound)
@@ -20,7 +25,21 @@ public class TileEntityMarket extends TileEntityInformator
 		townHallX = nbttagcompound.getDouble("townhallPosX");
 		townHallY = nbttagcompound.getDouble("townhallPosY");
 		townHallZ = nbttagcompound.getDouble("townhallPosZ");
-		townHallPosition = Vec3D.createVector(townHallX, townHallY, townHallZ);
+
+
+
+		for(int i = 0; i < stalls.length; i++)
+		{
+			EnumMarketStalls stallIds[] = EnumMarketStalls.values();
+			for(int j = 0; j < stallIds.length; j++)
+			{
+				if(stallIds[j].id == nbttagcompound.getInteger((new StringBuilder("stall")).append(i).toString()))
+				{
+					stalls[i] = stallIds[j];
+					break;
+				}
+			}
+		}
     }
 
     public void writeToNBT(NBTTagCompound nbttagcompound)
@@ -29,6 +48,11 @@ public class TileEntityMarket extends TileEntityInformator
 		nbttagcompound.setDouble("townhallPosX", townHallX);
 		nbttagcompound.setDouble("townhallPosY", townHallY);
 		nbttagcompound.setDouble("townhallPosZ", townHallZ);
+
+		for(int i = 0; i < stalls.length; i++)
+		{
+			nbttagcompound.setInteger((new StringBuilder("stall")).append(i).toString(), stalls[i].id);
+		}
     }
 
     public void updateEntity()
@@ -107,4 +131,5 @@ public class TileEntityMarket extends TileEntityInformator
 	protected double townHallX;
 	protected double townHallY;
 	protected double townHallZ;
+	protected EnumMarketStalls[] stalls;
 }

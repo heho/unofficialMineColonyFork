@@ -5,9 +5,9 @@ package net.minecraft.src;
  *
  * @author heho
  */
-public class ItemDividers extends Item
+public class ItemCaliper extends Item
 {
-	protected ItemDividers(int i)
+	protected ItemCaliper(int i)
     {
 		super(i);
     }
@@ -41,18 +41,18 @@ public class ItemDividers extends Item
 			{
 				if(startPositionY == j)
 				{
-					int distance = java.lang.Math.abs(k - startPositionZ);
+					int distance = java.lang.Math.abs(k - startPositionZ) + 1;
 					ModLoader.getMinecraftInstance().ingameGUI.addChatMessage(String.format("It is a %d blocks long line", distance));
 					return false;
 				}
 				if(startPositionZ == k)
 				{
-					int distance = java.lang.Math.abs(j - startPositionY);
+					int distance = java.lang.Math.abs(j - startPositionY) + 1;
 					ModLoader.getMinecraftInstance().ingameGUI.addChatMessage(String.format("It is a %d blocks long line", distance));
 					return false;
 				}
-				int distance1 = java.lang.Math.abs(j - startPositionY);
-				int distance2 = java.lang.Math.abs(k - startPositionZ);
+				int distance1 = java.lang.Math.abs(j - startPositionY) + 1;
+				int distance2 = java.lang.Math.abs(k - startPositionZ) + 1;
 
 				ModLoader.getMinecraftInstance().ingameGUI.addChatMessage(String.format("It is a %d by %d square", distance1, distance2));
 				return false;
@@ -61,18 +61,18 @@ public class ItemDividers extends Item
 			{
 				if(startPositionX == j)
 				{
-					int distance = java.lang.Math.abs(k - startPositionZ);
+					int distance = java.lang.Math.abs(k - startPositionZ) + 1;
 					ModLoader.getMinecraftInstance().ingameGUI.addChatMessage(String.format("It is a %d blocks long line", distance));
 					return false;
 				}
 				if(startPositionZ == k)
 				{
-					int distance = java.lang.Math.abs(i - startPositionX);
+					int distance = java.lang.Math.abs(i - startPositionX) + 1;
 					ModLoader.getMinecraftInstance().ingameGUI.addChatMessage(String.format("It is a %d blocks long line", distance));
 					return false;
 				}
-				int distance1 = java.lang.Math.abs(i - startPositionX);
-				int distance2 = java.lang.Math.abs(k - startPositionZ);
+				int distance1 = java.lang.Math.abs(i - startPositionX) + 1;
+				int distance2 = java.lang.Math.abs(k - startPositionZ) + 1;
 
 				ModLoader.getMinecraftInstance().ingameGUI.addChatMessage(String.format("It is a %d by %d square", distance1, distance2));
 				return false;
@@ -81,26 +81,26 @@ public class ItemDividers extends Item
 			{
 				if(startPositionX == i)
 				{
-					int distance = java.lang.Math.abs(j - startPositionY);
+					int distance = java.lang.Math.abs(j - startPositionY) + 1;
 					ModLoader.getMinecraftInstance().ingameGUI.addChatMessage(String.format("It is a %d blocks long line", distance));
 					return false;
 				}
 				if(startPositionY == j)
 				{
-					int distance = java.lang.Math.abs(i - startPositionX);
+					int distance = java.lang.Math.abs(i - startPositionX) + 1;
 					ModLoader.getMinecraftInstance().ingameGUI.addChatMessage(String.format("It is a %d blocks long line", distance));
 					return false;
 				}
-				int distance1 = java.lang.Math.abs(i - startPositionX);
-				int distance2 = java.lang.Math.abs(j - startPositionY);
+				int distance1 = java.lang.Math.abs(i - startPositionX) + 1;
+				int distance2 = java.lang.Math.abs(j - startPositionY) + 1;
 
 				ModLoader.getMinecraftInstance().ingameGUI.addChatMessage(String.format("It is a %d by %d square", distance1, distance2));
 				return false;
 			}
 
-			int distance1 = java.lang.Math.abs(i - startPositionX);
-			int distance2 = java.lang.Math.abs(j - startPositionY);
-			int distance3 = java.lang.Math.abs(k - startPositionZ);
+			int distance1 = java.lang.Math.abs(i - startPositionX) + 1;
+			int distance2 = java.lang.Math.abs(j - startPositionY) + 1;
+			int distance3 = java.lang.Math.abs(k - startPositionZ) + 1;
 
 			ModLoader.getMinecraftInstance().ingameGUI.addChatMessage(String.format("It is a %d by %d by %d cube", distance1, distance2, distance3));
 			return false;

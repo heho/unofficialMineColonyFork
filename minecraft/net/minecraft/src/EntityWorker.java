@@ -41,27 +41,30 @@ public class EntityWorker extends EntityCreature {
 	protected double starringPointY;
 	protected double starringPointZ;
 	protected Vec3D destPoint;
-	protected RalphPathfinder pf;	
+	protected RalphPathfinder pf;
 	protected boolean starringPointSet;
 	protected int stuckCount = 0;
 	protected int strafingDir = 1;
 	protected int strafingDirChange = 3;
 	protected int freeRoamCount = 0;
 	protected int roamingStuckLimit;
+	boolean allowShortCuts=true;  // pathfinding will attempt short cuts
 
 	protected ItemStack toolsList[];
 	protected int currentlyEquipedTool;
-	protected int currentToolEfficiency;
-	protected List<ItemStack> inventory; 
+	protected int currentToolEfficiency=12;
+	protected List<ItemStack> inventory;
 
 	public int homePosX;
 	public int homePosY;
 	public int homePosZ;
+    boolean haveHomeChest=false;
+    int findHome=0;
 
 	public int iPosX;
 	public int iPosY;
 	public int iPosZ;
-	
+
 	World world;
 
 	protected boolean isSwinging = false;
@@ -75,6 +78,14 @@ public class EntityWorker extends EntityCreature {
 		homePosX = MathHelper.floor_double(x);
 		homePosY = MathHelper.floor_double(y);
 		homePosZ = MathHelper.floor_double(z);
+		haveHomeChest=true;
+	}
+	public boolean isHomePosition(int x, int y, int z)
+	{
+		if (x != Math.floor(homePosX)) return false;
+		if (y != Math.floor(homePosY)) return false;
+		if (z != Math.floor(homePosZ)) return false;
+		return true;
 	}
 
 	public ItemStack getHeldItem() {
@@ -149,11 +160,11 @@ public class EntityWorker extends EntityCreature {
 			checkFreq = MaxCheckFreq;
 		}
 
-		if(destPoint!=null && !starringPointSet)
+		if(destPoint!=null) // && !starringPointSet)
 		{
-			
+
 			walkToTarget(destPoint);
-			
+
 		}
 
 
@@ -190,7 +201,7 @@ public class EntityWorker extends EntityCreature {
 							for(int cp = 0;cp<sign.signText.length;cp++)
 							{
 								String textNr = sign.signText[cp];
-							
+
 								if(textNr.startsWith("Out") ||
 										textNr.startsWith("Sleeping") ||
 										textNr.startsWith("No trees in range"))
@@ -253,7 +264,7 @@ public class EntityWorker extends EntityCreature {
 
 	protected TileEntitySign placeSign(int blockID, String t1,String t2,String t3) {
 		// place sign only near blockId
-		if(scanForBlockNearPoint(blockID, iPosX, iPosY, iPosZ, 3, 3, 3)==null)
+		if(scanForBlockNearPoint(blockID, iPosX, iPosY, iPosZ, 10, 10, 10)==null)
 			return null;
 
 		Vec3D signVec = null;
@@ -429,7 +440,7 @@ public class EntityWorker extends EntityCreature {
 		return f + f3;
 	}
 
-	
+
 	protected void equipItemFromChest(TileEntityChest tileentitychest, int itemId, int i, int toolSlot) {
 
 		ItemStack itemStack = null;
@@ -468,8 +479,8 @@ public class EntityWorker extends EntityCreature {
 		}
 		return total;
 	}
-	
-	
+
+
 	boolean addItemToInventory(ItemStack is,int cnt)
 	{
 		for (int i=0; i<inventory.size(); i++)
@@ -483,11 +494,11 @@ public class EntityWorker extends EntityCreature {
 			}
 		}
 		inventory.add(is);
-		
+
 		return true;
 	}
-	
-	
+
+
 	int removeItemInInventory(ItemStack is, int cnt)
 	{
 		int cntRemoved=0;
@@ -502,7 +513,7 @@ public class EntityWorker extends EntityCreature {
 					cntRemoved+=cnt;
 					if (itm.stackSize==0)
 						inventory.remove(i);
-			
+
 					return cntRemoved;
 				}
 
@@ -513,8 +524,8 @@ public class EntityWorker extends EntityCreature {
 		}
 		return cntRemoved;
 	}
-	
-	
+
+
 	boolean doesChestContainItem(TileEntityChest chest, int itemID, int cnt)
 	{
 		if(chest==null)
@@ -536,8 +547,8 @@ public class EntityWorker extends EntityCreature {
 		}
 		return false;
 	}
-	
-	
+
+
 	boolean chestCanHold(TileEntityChest chest, Class itemClass, int cnt)
 	{
 		if(chest==null)
@@ -559,9 +570,9 @@ public class EntityWorker extends EntityCreature {
 		}
 		return false;
 	}
-	
-	
-	
+
+
+
 	protected ItemStack getItemFromChest(TileEntityChest chest, Class itemClass, int i) {
 		if(chest==null)
 			return null;
@@ -588,8 +599,8 @@ public class EntityWorker extends EntityCreature {
 		return null;
 	}
 
-	
-	
+
+
 	protected ItemStack getItemFromChest(TileEntityChest chest, int itemId, int i) {
 		if(chest==null)
 			return null;
@@ -713,14 +724,14 @@ public class EntityWorker extends EntityCreature {
 		return true;
 	}
 
-	
+
 	boolean signAt(int x, int y, int z)
 	{
 		return (worldObj.getBlockId(x, y, z) == Block.signPost.blockID ||
 				worldObj.getBlockId(x, y, z) == Block.signWall.blockID );
-		//  || 				worldObj.getBlockTileEntity( x, y,  z) instanceof TileEntitySign); 
+		//  || 				worldObj.getBlockTileEntity( x, y,  z) instanceof TileEntitySign);
 	}
-	
+
 
 
 	// searches for a sign that reads Build Here
@@ -749,17 +760,50 @@ public class EntityWorker extends EntityCreature {
 		return null;
 	}
 
-	
+boolean pointIsDoor(PathPoint p)
+{
+	return (worldObj.getBlockId(p.xCoord, p.yCoord, p.zCoord)==Block.doorWood.blockID);
+}
+void openDoorForX(PathPoint p)
+{
+
+}
+void openDoorForZ(PathPoint p)
+{
+
+}
+void openDoorBetween(PathPoint pt0, PathPoint pt1)
+{
+	if (pt0.xCoord!=pt1.xCoord)
+	{
+		if (pointIsDoor(pt1)) openDoorForX(pt1);
+		if (pointIsDoor(pt0)) openDoorForX(pt0);
+	}
+	else
+	{
+		if (pointIsDoor(pt1)) openDoorForZ(pt1);
+		if (pointIsDoor(pt0)) openDoorForZ(pt0);
+	}
+}
+
+
+
+boolean atEndOfPath()
+{
+	if (rpe==null) return true;
+	return (rpeIdx==rpe.pathLength-1);
+}
 // move forward is variable used by workers
 // speed is whats given to minecraft.entity
 Vec3D pathDest;
+
+public int rpeIdx=-1;
 void pathFindAndMove(Vec3D vec3d)
 {
 	double mySpeed=1;
 	if (speed==0)
 		return;
 
-	int rpeIdx=-1;
 	Vec3D moveToVec;
 
 	iPosX = (int) Math.floor(posX);
@@ -770,15 +814,20 @@ void pathFindAndMove(Vec3D vec3d)
 	// System.out.println("my ipos is " + iPosX + " " + iPosY + " " + iPosZ );
 	//System.out.println("eventual dest is " + vec3d.toString());
 	if (rpe!=null)
+	{
 		rpeIdx = rpe.indexOf( iPosX, pf.findGroundLevel(iPosX, iPosY, iPosZ), iPosZ);
+	}
+
+	if (rpeIdx<0)
+		System.out.print("");
 	if (rpeIdx<0 ||  (pathDest!=null &&  pathDest.distanceTo(vec3d)>.5))
 	{
-	
+
 		//pf.debug=true;
 		rpe = pf.createEntityPathTo(this, iPosX, iPosY, iPosZ, (int) vec3d.xCoord, (int) vec3d.yCoord, (int) vec3d.zCoord, 100);
 		//System.out.println("creating path");
 		pathDest = Vec3D.createVectorHelper(vec3d.xCoord, vec3d.yCoord, vec3d.zCoord);
-		
+
 		if (rpe!=null)
 		{
 			rpeIdx = rpe.indexOf(iPosX, pf.findGroundLevel(iPosX, iPosY, iPosZ), iPosZ);
@@ -786,7 +835,7 @@ void pathFindAndMove(Vec3D vec3d)
 	    }
  		if (rpeIdx<0)
 			rpeIdx=0;
- 		
+
  		if (rpe!=null)
  			{
  	//		System.out.println("newpath");
@@ -794,25 +843,38 @@ void pathFindAndMove(Vec3D vec3d)
  		//		System.out.println(rpe.points[i].xCoord + " " + rpe.points[i].yCoord + " " + rpe.points[i].zCoord + " ");
  			}
 	}
-	else
-	{
 
+
+	if (rpe!=null && rpeIdx>=rpe.points.length-1)
+	{
+		speed=0;
+		moveForward=0;
+		// System.out.println(vec3d + " and " + pathDest);
+	return;
 	}
 
 	moveToVec=Vec3D.createVector(vec3d.xCoord, vec3d.yCoord, vec3d.zCoord);
 	if (rpe!=null)
 	{
 		isJumping=false;
+		if (worldObj.getBlockId(iPosX, iPosY, iPosZ)==Block.doorWood.blockID)
+			Block.doorWood.blockActivated(worldObj, iPosX, iPosY, iPosZ, null);
+
 		if (rpe.points.length>rpeIdx+1)
 		{
-			moveToVec=Vec3D.createVector(rpe.points[rpeIdx+1].xCoord,rpe.points[rpeIdx+1].yCoord,rpe.points[rpeIdx+1].zCoord) ;
-			mySpeed=.5f;							
 			PathPoint pt1 = rpe.points[rpeIdx+1];
-			if (pt1.yCoord>iPosY)
+			PathPoint pt0 = rpe.points[rpeIdx];
+
+			if (pointIsDoor(pt1) ||  pointIsDoor(pt0))
+				openDoorBetween(pt0, pt1);
+
+			moveToVec=Vec3D.createVector(rpe.points[rpeIdx+1].xCoord,rpe.points[rpeIdx+1].yCoord,rpe.points[rpeIdx+1].zCoord) ;
+			mySpeed=.5f;
+
+			if (pt1.yCoord>iPosY || worldObj.getBlockId(pt1.xCoord, pt1.yCoord, pt1.zCoord)==Block.doorWood.blockID)
 				isJumping=true;
 
-
-			if (rpe.points.length>rpeIdx+2)
+			if (allowShortCuts &&  rpe.points.length>rpeIdx+2)
 			{
 				PathPoint pt2 = rpe.points[rpeIdx+2];
 
@@ -820,17 +882,19 @@ void pathFindAndMove(Vec3D vec3d)
 
 				moveToVec=Vec3D.createVector(rpe.points[rpeIdx+2].xCoord,rpe.points[rpeIdx+2].yCoord,rpe.points[rpeIdx+2].zCoord) ;
 				//				System.out.println(" my pos is " + iPosX + " " + iPosY + " " + iPosZ + " walking to " + vec3d);
-				if (pt2.yCoord>iPosY)
-					isJumping=true;				
+				if (pt2.yCoord>iPosY || worldObj.getBlockId(pt2.xCoord, pt2.yCoord, pt2.zCoord)==Block.doorWood.blockID)
+					isJumping=true;
+
 				mySpeed=1f;
+
 				//System.out.println("my y = " + iPosY + "pt1 y =" + pt1.yCoord + " pt2 y =" + pt2.yCoord);
 			}
 
 		}
-	}	
+	}
 	// 0 is east    towards gate
 	// 90 is south  towards (lumberjacks)
-	// 180 is west  
+	// 180 is west
 	// 270 north
 	if (moveToVec != null) {
 		moveToVec.xCoord+=.5;  // was -
@@ -845,51 +909,51 @@ void pathFindAndMove(Vec3D vec3d)
 		//System.out.println("dz=" + dz + " dx = " + dx  + " f4=" + f4);
 
 		float f5 = f4 - rotationYaw;
-		if (speed<mySpeed)  // don't go faster than what they ask for 
+		if (speed<mySpeed)  // don't go faster than what they ask for
 			mySpeed=speed;
-		for (; f5 < -180F; f5 += 360F) 
+		for (; f5 < -180F; f5 += 360F)
 		{
 		}
-		for (; f5 >= 180F; f5 -= 360F) 
+		for (; f5 >= 180F; f5 -= 360F)
 		{
 		}
-		for (; rotationYaw < -180F; rotationYaw += 360F) 
+		for (; rotationYaw < -180F; rotationYaw += 360F)
 		{
 		}
-		for (; rotationYaw >= 180F; rotationYaw -= 360F) 
+		for (; rotationYaw >= 180F; rotationYaw -= 360F)
 		{
-		}			
+		}
 		//System.out.println("f4=" + f4 + " rotationYaw = " + rotationYaw + " f5=" + f5);
 		if (f5 > 30F)
 		{
 			f5 = 30F;
 		}
-		if (f5 < -30F) 
+		if (f5 < -30F)
 		{
 			f5 = -30F;
 		}
 
 		rotationYaw += f5;
-		
+
 		//if (isJumping) System.out.println("isjumping=true");
 		//System.out.println("moveforward = " + moveForward + " dest is " + vec3d.toString() + " direction is " + rotationYaw);
 		speed=moveForward=(float) mySpeed;
 
 		boolean flag1 = handleWaterMovement();
 		boolean flag2 = handleLavaMovement();
-		if (flag1 || flag2) 
+		if (flag1 || flag2)
 		{
 			isJumping = true;
 		}
 
 
-	}		
+	}
 }
 
 
     protected void walkToTarget(Vec3D vec3d)
     {
-			pathFindAndMove(vec3d); 	
+			pathFindAndMove(vec3d);
     }
 
 
@@ -898,7 +962,7 @@ void pathFindAndMove(Vec3D vec3d)
 			return;
 
 
-		
+
 		isJumping = false;
 
 		// if is close to destination then slow down
@@ -1191,7 +1255,7 @@ void pathFindAndMove(Vec3D vec3d)
 	protected int findTopGround(int x, int z) {
 		int ySolid = 127;
 		int blockId = worldObj.getBlockId(x, ySolid, z);
-		while(blockId==0 || blockId==Block.leaves.blockID ||
+		while ( (blockId==0 || blockId==Block.leaves.blockID ||
 				blockId==Block.wood.blockID ||
 				blockId==Block.cactus.blockID ||
 				blockId==Block.crops.blockID ||
@@ -1199,7 +1263,7 @@ void pathFindAndMove(Vec3D vec3d)
 				blockId==Block.fire.blockID ||
 				blockId==Block.cobblestone.blockID ||
 				blockId==Block.planks.blockID ||
-				blockId==Block.brick.blockID)
+				blockId==Block.brick.blockID) && ySolid>0)
 		{
 			ySolid--;
 			blockId = worldObj.getBlockId(x, ySolid, z);

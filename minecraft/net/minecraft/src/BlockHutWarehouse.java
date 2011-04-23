@@ -1,10 +1,11 @@
 package net.minecraft.src;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class BlockHutWarehouse extends BlockHut {
-	private EntityDeliveryMan dm;
+	int xCoord, yCoord, zCoord;
 
 	public BlockHutWarehouse(int blockID, int _textureID) {
 		super(blockID);
@@ -14,18 +15,16 @@ public class BlockHutWarehouse extends BlockHut {
 		clearingRange = 4;
 		halfWidth = hutWidth/2;
 		workingRange = 60;
-		dm = null;
-		// Sets the recipe be two planks horizontal to each other
-		// CraftingManager.getInstance().addRecipe(new ItemStack(blockID, 1,0),
-		// new Object[] { "##", Character.valueOf('#'), Block.sand});
 	}
+
+
 
 	public boolean canPlaceBlockAt(World world, int i, int j, int k)
 	{
 		// check if there are other chests nearby
-		Vec3D chestPos = scanForBlockNearPoint(world, mod_MineColony.hutWarehouse.blockID, i,j,k, workingRange, 20, workingRange);
-		if (chestPos != null)
-			return false;
+		//Vec3D chestPos = scanForBlockNearPoint(world, mod_MineColony.hutWarehouse.blockID, i,j,k, workingRange, 20, workingRange);
+		//if (chestPos != null)
+		//	return false;
 
 		return super.canPlaceBlockAt(world, i, j, k);
 	}
@@ -114,88 +113,38 @@ public class BlockHutWarehouse extends BlockHut {
 		super.onBlockAdded(world, i, j, k);
 		//world.setWorldTime(0);
 		world.setBlockWithNotify(i, j, k, mod_MineColony.hutWarehouse.blockID);
-		TileEntityChest tileentitychest = (TileEntityChest) world
-		.getBlockTileEntity(i, j, k);
+		TileEntityWarehouse tew= (TileEntityWarehouse) world.getBlockTileEntity(i, j, k);
 
-		tileentitychest.setInventorySlotContents(0, new ItemStack(Item.sign, 10));
+		tew.setInventorySlotContents(0, new ItemStack(Item.sign, 10));
 
-		spawnWorker(world, i, j, k);
+        xCoord=i;
+        yCoord=j;
+        zCoord=k;
+
 	}
 
 	public void updateTick(World world, int i, int j, int k, Random random)
 	{
 		super.updateTick(world, i, j, k, random);
 
-		if(getWorkerAround(world, i,j,k)==null)
-		{
-			EntityDeliveryMan dm2=getDeliverymanAround2(world, i, j, k);
-			if (dm2==null && (dm==null ||  dm.isDead || dm.stuckCount>12))
-			{
-				System.out.println("");
-				if (dm!=null) dm.isDead=true;
-				dm=null;
-				spawnWorker(world, i, j, k);
-			}
-			//if(dm!=null)
-			//dm.isDead = true;
-			//spawnWorker(world, i, j, k);
-		}
 	}
 
-	
-	
-	public void spawnWorker(World world, int i, int j, int k)
-	{
-		// spawn delivery man
-		dm = (EntityDeliveryMan) EntityList.createEntityInWorld("DeliveryMan", world);
 
-		// scan for first free block near chest
-		Vec3D spawnPoint = scanForBlockNearPoint(world, 0, i, j, k, 1, 0, 1);
-		if(spawnPoint==null)
-			spawnPoint = scanForBlockNearPoint(world, Block.snow.blockID, i, j, k, 1, 0, 1);
 
-		if(spawnPoint!=null)
-		{
-			dm.setPosition(spawnPoint.xCoord, spawnPoint.yCoord, spawnPoint.zCoord);
-			dm.setHomePosition(i, j, k);
-			world.entityJoinedWorld(dm);
-		}
-		dm.findRouteName();
-	}
 
 	public void onBlockRemoval(World world, int i, int j, int k)
 	{
-		//EntityDeliveryMan dm = getWorkerAround(world, i,j,k);
-		dm = getWorkerAround(world, i,j,k);
-		if(dm!=null)
+		if ( world.getBlockTileEntity(i, j, k) instanceof TileEntityWarehouse)
 		{
-			dm.isDead=true;
+		TileEntityWarehouse tew= (TileEntityWarehouse) world.getBlockTileEntity(i, j, k);
+		tew.removeWorker();
 		}
 	}
+    protected TileEntity getBlockEntity()
+    {
+        return new TileEntityWarehouse();
+    }
 
-	public EntityDeliveryMan getWorkerAround(World world, int i, int j, int k)
-	{
-		List list = world.getEntitiesWithinAABB(EntityDeliveryMan.class, this.getCollisionBoundingBoxFromPool(world, i, j, k).expand(workingRange, 30, workingRange));
-		if (list != null) {
-			for (int ii = 0; ii < list.size(); ii++) {
-				if (list.get(ii) instanceof EntityDeliveryMan) {
-					return (EntityDeliveryMan)list.get(ii);
-				}
-			}
-		}
-
-		return null;
-	}
-	public EntityDeliveryMan getDeliverymanAround2(World world, int i, int j, int k)
-	{
-		List l = world.getLoadedEntityList();
-		for (int c=0;c<l.size(); c++)
-			if (l.get(c) instanceof EntityDeliveryMan)
-				return (EntityDeliveryMan) l.get(c);
-		return null;
-	}
-	
-	
 	public int getBlockTextureFromSide(int side)
 	{
 		if(side==1)
@@ -215,6 +164,8 @@ public class BlockHutWarehouse extends BlockHut {
 		else
 			return super.getBlockTexture(iblockaccess, i, j, k, l);
 	}
+
+
 
 }
 

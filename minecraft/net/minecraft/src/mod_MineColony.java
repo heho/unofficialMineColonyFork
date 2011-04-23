@@ -38,7 +38,7 @@ public class mod_MineColony extends BaseMod {
 	public static Item moneyGold;
 	public static Item moneySilver;
 	public static Item moneyBronze;
-	public static Item dividers;
+	public static Item caliper;
 
 
 	public void AddRecipes(CraftingManager recipes) {
@@ -56,7 +56,7 @@ public class mod_MineColony extends BaseMod {
 				new Object[] { Item.ingotGold });
 
 		//dividers
-		recipes.addRecipe(new ItemStack(mod_MineColony.dividers, 1),
+		recipes.addRecipe(new ItemStack(mod_MineColony.caliper, 1),
 				new Object[] { " X ", "X X", "X X", Character.valueOf('X'), Item.ingotIron});
 
 
@@ -200,7 +200,7 @@ public class mod_MineColony extends BaseMod {
 		moneyBronze = (new ItemMoney(ModLoader.getUniqueEntityId())).setIconIndex(overrideID).setFull3D().setItemName("moneyBronze");
 
 		overrideID = ModLoader.addOverride("/gui/items.png", "/gui/Item_dividers.png");
-		dividers = (new ItemDividers(ModLoader.getUniqueEntityId())).setIconIndex(overrideID).setFull3D().setItemName("Dividers");
+		caliper = (new ItemCaliper(ModLoader.getUniqueEntityId())).setIconIndex(overrideID).setFull3D().setItemName("Caliper");
 
 
 		// These return int overrides for something
@@ -240,8 +240,10 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.AddName(mod_MineColony.moneyGold, "Gold coin");
 		ModLoader.AddName(mod_MineColony.moneySilver, "Silver coin");
 		ModLoader.AddName(mod_MineColony.moneyBronze, "Bronze coin");
-		ModLoader.AddName(mod_MineColony.dividers, "Dividers");
+		ModLoader.AddName(mod_MineColony.caliper, "Caliper");
 
+		ModLoader.RegisterTileEntity(TileEntityHut.class, "Hut");
+		ModLoader.RegisterTileEntity(TileEntityWarehouse.class, "Warehouse");
 		ModLoader.RegisterTileEntity(TileEntityChanger.class, "Changer");
 		ModLoader.RegisterTileEntity(TileEntityTownHall.class, "TownHall");
 		ModLoader.RegisterTileEntity(TileEntityMarket.class, "Market");
@@ -263,6 +265,8 @@ public class mod_MineColony extends BaseMod {
 			return new GuiChanger(player.inventory, (TileEntityChanger)instance);
 		else if((instance instanceof TileEntityTownHall))
 			return new GuiTownHall(player.inventory, (TileEntityTownHall)instance);
+		else if((instance instanceof TileEntityHut))
+			return new GuiHut(player.inventory, (TileEntityHut)instance);
 		return null;
 	}
 

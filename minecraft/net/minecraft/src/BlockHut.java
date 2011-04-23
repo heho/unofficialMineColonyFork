@@ -11,13 +11,14 @@ public class BlockHut extends BlockChest {
 	protected int workingRange;
 	protected int textureID;
 	
-	public BlockHut(int blockID) {
+	public BlockHut(int blockID)
+	{
 		super(blockID);
 		setTickOnLoad(true);
 		
 		// Need to create the item that will be dropped
 		//Item.itemsList[blockID] = new ItemBlock(blockID - 256);
-}
+	}
 	
 	public int idDropped(int i, Random random) {
 		return blockID;
@@ -65,6 +66,24 @@ public class BlockHut extends BlockChest {
 
 		return closestVec;
 	}
+
+	public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
+    {
+        Object obj = (TileEntityChest)world.getBlockTileEntity(i, j, k);
+        if(world.multiplayerWorld)
+        {
+            return true;
+        } else
+        {
+            TileEntityHut tileentityhut = (TileEntityHut)world.getBlockTileEntity(i, j, k);
+			GuiHut guiHut = new GuiHut(entityplayer.inventory, tileentityhut);
+            ModLoader.OpenGUI(entityplayer, guiHut);
+            return true;
+        }
+    }
 	
-    
+    protected TileEntity getBlockEntity()
+    {
+        return new TileEntityHut();
+    }
 }
