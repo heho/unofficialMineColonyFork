@@ -62,34 +62,30 @@ public class TileEntityMarket extends TileEntityInformator
 
 	public void setTownHall(int i, int j, int k, World world)
 	{
-		if(this.townHallPosition == null)
+		Vec3D nextInfluenced = scanForBlockNearPoint(world, mod_MineColony.hutMarket.blockID, i,j,k, 100, 30, 100);
+		if(nextInfluenced != null)
 		{
-			Vec3D nextInfluenced = scanForBlockNearPoint(world, mod_MineColony.hutMarket.blockID, i,j,k, 100, 30, 100);
-			if(nextInfluenced != null)
-			{
-				TileEntityMarket market = (TileEntityMarket) (world.getBlockTileEntity((int)nextInfluenced.xCoord, (int)nextInfluenced.yCoord, (int)nextInfluenced.zCoord));
-				this.townHallX = market.townHallPosition.xCoord;
-				this.townHallY = market.townHallPosition.yCoord;
-				this.townHallZ = market.townHallPosition.zCoord;
-				System.out.println("g");
-			}
-			if(nextInfluenced == null)
-			{
-				nextInfluenced = scanForBlockNearPoint(world, mod_MineColony.hutTownHall.blockID, i,j,k, 100, 30, 100);
-				this.townHallPosition = nextInfluenced;
-				this.townHallX = nextInfluenced.xCoord;
-				this.townHallY = nextInfluenced.yCoord;
-				this.townHallZ = nextInfluenced.zCoord;
-				System.out.println("f");
-			}
-
-			if(this.townHallPosition != null)
-			{
-				TileEntityTownHall townhall = (TileEntityTownHall) world.getBlockTileEntity((int)this.townHallPosition.xCoord, (int)this.townHallPosition.yCoord, (int)this.townHallPosition.zCoord);
-				townhall.marketXPositions.add((double)this.xCoord);
-				townhall.marketYPositions.add((double)this.yCoord);
-				townhall.marketZPositions.add((double)this.zCoord);
-			}
+			TileEntityMarket market = (TileEntityMarket) (world.getBlockTileEntity((int)nextInfluenced.xCoord, (int)nextInfluenced.yCoord, (int)nextInfluenced.zCoord));
+			this.townHallX = market.townHallX;
+			this.townHallY = market.townHallY;
+			this.townHallZ = market.townHallZ;
+			return;
+		}
+		nextInfluenced = scanForBlockNearPoint(world, mod_MineColony.hutCitizen.blockID, i,j,k, 60, 30, 60);
+		if(nextInfluenced == null)
+		{
+			TileEntityCitizen citizen = (TileEntityCitizen) (world.getBlockTileEntity((int)nextInfluenced.xCoord, (int)nextInfluenced.yCoord, (int)nextInfluenced.zCoord));
+			this.townHallX = citizen.townHallX;
+			this.townHallY = citizen.townHallY;
+			this.townHallZ = citizen.townHallZ;
+			return;
+		}
+		if(nextInfluenced == null)
+		{
+			nextInfluenced = scanForBlockNearPoint(world, mod_MineColony.hutTownHall.blockID, i,j,k, 100, 30, 100);
+			this.townHallX = nextInfluenced.xCoord;
+			this.townHallY = nextInfluenced.yCoord;
+			this.townHallZ = nextInfluenced.zCoord;
 		}
 	}
 

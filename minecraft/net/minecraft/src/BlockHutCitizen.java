@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BlockHutCitizen extends BlockHut {
+public class BlockHutCitizen extends BlockHut
+{
 
-	private List<EntityCitizen> inhabitants;
-	private int lastAddedID;
-
-	public BlockHutCitizen(int blockID, int _textureID) {
+	public BlockHutCitizen(int blockID, int _textureID)
+	{
 		super(blockID);
 		textureID = _textureID;
 		hutWidth = 5;
@@ -17,7 +16,6 @@ public class BlockHutCitizen extends BlockHut {
 		clearingRange = 4;
 		halfWidth = hutWidth/2;
 		workingRange = 10;
-		inhabitants = new ArrayList<EntityCitizen>();
 		// Sets the recipe be two planks horizontal to each other
 		// CraftingManager.getInstance().addRecipe(new ItemStack(blockID, 1,0),
 		// new Object[] { "##", Character.valueOf('#'), Block.dirt,});
@@ -71,35 +69,15 @@ public class BlockHutCitizen extends BlockHut {
 		super.onBlockAdded(world, i, j, k);
 
 		world.setBlockWithNotify(i, j, k, mod_MineColony.hutCitizen.blockID);
-		TileEntityChest tileentitychest = (TileEntityChest) world
+		TileEntityCitizen tileentitycitizen = (TileEntityCitizen) world
 		.getBlockTileEntity(i, j, k);
-
-
-		spawnInhabitant(world, i, j, k);
+		
+		tileentitycitizen.spawnInhabitant();
 	}
 
 	public void updateTick(World world, int i, int j, int k, Random random)
 	{
 		super.updateTick(world, i, j, k, random);
-	}
-
-	public void spawnInhabitant(World world, int i, int j, int k)
-	{
-		EntityCitizen citizen = (EntityCitizen)EntityList.createEntityInWorld("Citizen", world);
-		inhabitants.add(citizen);
-
-		// scan for first free block near chest
-		Vec3D spawnPoint = scanForBlockNearPoint(world, 0, i, j, k, 1, 0, 1);
-		if(spawnPoint==null)
-			spawnPoint = scanForBlockNearPoint(world, Block.snow.blockID, i, j, k, 1, 0, 1);
-
-		if(spawnPoint!=null)
-		{
-			inhabitants.get(inhabitants.size()-1).setPosition(spawnPoint.xCoord, spawnPoint.yCoord, spawnPoint.zCoord);
-			inhabitants.get(inhabitants.size()-1).setHomePosition(i, j, k);
-			world.entityJoinedWorld(inhabitants.get(inhabitants.size()-1));
-		}
-
 	}
 
 	public void onBlockRemoval(World world, int i, int j, int k)
@@ -130,5 +108,10 @@ public class BlockHutCitizen extends BlockHut {
 		else
 			return super.getBlockTexture(iblockaccess, i, j, k, l);
 	}
+
+	protected TileEntity getBlockEntity()
+    {
+        return new TileEntityCitizen();
+    }
 
 }

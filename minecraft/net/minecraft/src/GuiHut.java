@@ -154,10 +154,6 @@ public class GuiHut extends GuiContainer
 
 	private boolean getIsMouseOverSlot(Slot slot, int i, int j)
     {
-		if(page == 1)
-		{
-			return false;
-		}
         int k = (width - xSize) / 2;
         int l = (height - ySize) / 2;
         i -= k;
@@ -240,14 +236,10 @@ public class GuiHut extends GuiContainer
 
 	private Slot getSlotAtPosition(int i, int j)
     {
-		if(page == 1)
-		{
-			return null;
-		}
         for(int k = 0; k < inventorySlots.slots.size(); k++)
         {
             Slot slot = (Slot)inventorySlots.slots.get(k);
-            if(getIsMouseOverSlot(slot, i, j))
+            if(getIsMouseOverSlot(slot, i+20, j))
             {
                 return slot;
             }
@@ -272,28 +264,34 @@ public class GuiHut extends GuiContainer
             }
         }
 
-		if(page == 0)
+		/*if(page == 0)
 		{
 			return;
-		}
+		}*/
 
+		
         if(k == 0 || k == 1)
         {
+			System.out.println("a");
             Slot slot = getSlotAtPosition(i, j);
             int l = (width - xSize) / 2;
             int i1 = (height - ySize) / 2;
             boolean flag = i < l || j < i1 || i >= l + xSize || j >= i1 + ySize;
+			System.out.println("b");
             int j1 = -1;
             if(slot != null)
             {
+				System.out.println("c");
                 j1 = slot.slotNumber;
             }
             if(flag)
             {
+				System.out.println("d");
                 j1 = -999;
             }
             if(j1 != -1)
             {
+				System.out.println("e");
                 mc.playerController.func_20085_a(inventorySlots.windowId, j1, k, mc.thePlayer);
             }
         }

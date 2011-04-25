@@ -247,6 +247,7 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.RegisterTileEntity(TileEntityChanger.class, "Changer");
 		ModLoader.RegisterTileEntity(TileEntityTownHall.class, "TownHall");
 		ModLoader.RegisterTileEntity(TileEntityMarket.class, "Market");
+		ModLoader.RegisterTileEntity(TileEntityCitizen.class, "Citizen");
 
 		AddRecipes(CraftingManager.getInstance());
 	}
