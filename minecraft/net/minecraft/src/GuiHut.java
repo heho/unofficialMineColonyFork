@@ -12,8 +12,8 @@ public class GuiHut extends GuiContainer
 
     public GuiHut(IInventory pInventory, IInventory inventory)
 	{
-        super(new CraftingInventoryHutCB(pInventory, inventory));
-        inventoryRows = 0;
+		super(new CraftingInventoryHutCB(pInventory, inventory));
+        inventorySlots = new CraftingInventoryHutCB(pInventory, inventory);
         playerInventory = pInventory;
         chestInventory = inventory;
         field_948_f = false;
@@ -239,7 +239,7 @@ public class GuiHut extends GuiContainer
         for(int k = 0; k < inventorySlots.slots.size(); k++)
         {
             Slot slot = (Slot)inventorySlots.slots.get(k);
-            if(getIsMouseOverSlot(slot, i+20, j))
+            if(getIsMouseOverSlot(slot, i, j))
             {
                 return slot;
             }
@@ -272,26 +272,26 @@ public class GuiHut extends GuiContainer
 		
         if(k == 0 || k == 1)
         {
-			System.out.println("a");
             Slot slot = getSlotAtPosition(i, j);
             int l = (width - xSize) / 2;
             int i1 = (height - ySize) / 2;
             boolean flag = i < l || j < i1 || i >= l + xSize || j >= i1 + ySize;
-			System.out.println("b");
             int j1 = -1;
             if(slot != null)
             {
-				System.out.println("c");
                 j1 = slot.slotNumber;
+				if(j > 120)
+				{
+					j1 -= 27;
+				}
+				System.out.println(j1);
             }
             if(flag)
             {
-				System.out.println("d");
                 j1 = -999;
             }
             if(j1 != -1)
             {
-				System.out.println("e");
                 mc.playerController.func_20085_a(inventorySlots.windowId, j1, k, mc.thePlayer);
             }
         }
