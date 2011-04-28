@@ -10,13 +10,13 @@ public class CraftingInventoryHutCB extends CraftingInventoryCB
     public CraftingInventoryHutCB(IInventory playerInventory, IInventory inventory)
     {
         field_20125_a = inventory;
-        int i = 3;
-        int j = (i - 3) * 18 + 7;
-        for(int k = 0; k < i; k++)
+        int i = inventory.getSizeInventory() / 9;
+        int j = (i - 4) * 18;
+        for(int k = 0; k < 4; k++)
         {
             for(int j1 = 0; j1 < 9; j1++)
             {
-                addSlot(new SlotRestricted(inventory, j1 + k * 9, 8 + j1 * 18, 18 + k * 18, true));
+                addSlot(new Slot(inventory, j1 + k * 9, 8 + j1 * 18, 18 + k * 18));
             }
 
         }
@@ -25,7 +25,7 @@ public class CraftingInventoryHutCB extends CraftingInventoryCB
         {
             for(int k1 = 0; k1 < 9; k1++)
             {
-                addSlot(new SlotRestricted(playerInventory, k1 + l * 9 + 9, 8 + k1 * 18, 103 + l * 18 + j, true));
+                addSlot(new Slot(playerInventory, k1 + l * 9 + 9, 8 + k1 * 18, 103 + l * 18 + j));
             }
 
         }

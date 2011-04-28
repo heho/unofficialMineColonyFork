@@ -267,7 +267,8 @@ public class mod_MineColony extends BaseMod {
 		else if((instance instanceof TileEntityTownHall))
 			return new GuiTownHall(player.inventory, (TileEntityTownHall)instance);
 		else if((instance instanceof TileEntityHut))
-			return new GuiHut(player.inventory, (TileEntityHut)instance);
+			//return new GuiHut(player.inventory, (TileEntityHut)instance);
+			return null;
 		return null;
 	}
 

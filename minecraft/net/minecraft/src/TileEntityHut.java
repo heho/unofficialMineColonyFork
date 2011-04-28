@@ -6,9 +6,19 @@ package net.minecraft.src;
  */
 public class TileEntityHut extends TileEntityChest
 {
-	public String getInvName()
+    public String getInvName()
     {
         return "Hut";
+    }
+
+	public void readFromNBT(NBTTagCompound nbttagcompound)
+    {
+        super.readFromNBT(nbttagcompound);
+    }
+
+    public void writeToNBT(NBTTagCompound nbttagcompound)
+    {
+        super.writeToNBT(nbttagcompound);
     }
 
 	/**

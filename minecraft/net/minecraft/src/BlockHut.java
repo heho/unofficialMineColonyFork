@@ -69,15 +69,16 @@ public class BlockHut extends BlockChest {
 
 	public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
-        Object obj = (TileEntityChest)world.getBlockTileEntity(i, j, k);
+        Object obj = (TileEntityHut)world.getBlockTileEntity(i, j, k);
         if(world.multiplayerWorld)
         {
             return true;
         } else
         {
             TileEntityHut tileentityhut = (TileEntityHut)world.getBlockTileEntity(i, j, k);
-			GuiHut guiHut = new GuiHut(entityplayer.inventory, tileentityhut);
-            ModLoader.OpenGUI(entityplayer, guiHut);
+			entityplayer.displayGUIChest(((IInventory) (obj)));
+//			GuiHut guiHut = new GuiHut(entityplayer.inventory, tileentityhut);
+//            ModLoader.OpenGUI(entityplayer, guiHut);
             return true;
         }
     }
