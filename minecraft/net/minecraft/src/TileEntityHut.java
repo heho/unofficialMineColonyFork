@@ -58,4 +58,11 @@ public class TileEntityHut extends TileEntityChest
 				}
 		return closestVec;
 	}
+
+	public void setWorker(EntityWorker worker)
+	{
+		this.worker = worker;
+	}
+
+	protected EntityWorker worker = null;
 }

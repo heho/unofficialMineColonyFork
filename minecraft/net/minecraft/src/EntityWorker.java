@@ -73,6 +73,19 @@ public class EntityWorker extends EntityCreature {
 	// For Humans+ Compatibility
 	public boolean goodMob = true;
 	public boolean peacefulMob = false;
+	private boolean initiated = false;
+
+	private void init()
+	{
+		if(initiated) { return; }
+		
+		TileEntityHut tileentitychest = (TileEntityHut) world
+				.getBlockTileEntity(homePosX, homePosY, homePosZ);
+
+		tileentitychest.setWorker(this);
+
+		initiated = true;
+	}
 
 	public void setHomePosition(double x, double y, double z) {
 		homePosX = MathHelper.floor_double(x);
@@ -175,7 +188,9 @@ public class EntityWorker extends EntityCreature {
 		super.onUpdate();
 	}
 
-	protected void workerUpdate() {
+	protected void workerUpdate()
+	{
+		init();
 		// implement worker's task
 	}
 

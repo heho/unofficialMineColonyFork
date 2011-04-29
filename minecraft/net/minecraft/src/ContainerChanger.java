@@ -5,10 +5,10 @@ package net.minecraft.src;
 
 import java.util.List;
 
-public class CraftingInventoryChangerCB extends CraftingInventoryCB
+public class ContainerChanger extends Container
 {
 
-    public CraftingInventoryChangerCB(IInventory iinventory, TileEntityChanger tileentitychanger)
+    public ContainerChanger(IInventory iinventory, TileEntityChanger tileentitychanger)
     {
         changerInventory = tileentitychanger;
         addSlot(new SlotRestricted(tileentitychanger, 1, 12, 24, true, mod_MineColony.moneyBronze));

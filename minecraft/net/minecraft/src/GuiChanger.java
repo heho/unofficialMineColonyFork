@@ -11,7 +11,7 @@ public class GuiChanger extends GuiContainer
 
     public GuiChanger(InventoryPlayer inventoryplayer, TileEntityChanger tileentitychanger)
     {
-        super(new CraftingInventoryChangerCB(inventoryplayer, tileentitychanger));
+        super(new ContainerChanger(inventoryplayer, tileentitychanger));
         changerInventory = tileentitychanger;
     }
 

@@ -117,24 +117,24 @@ public class mod_MineColony extends BaseMod {
 		recipes.addRecipe(new ItemStack(blockBankID, 1,0),
 				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Item.ingotGold });
 
-		//Builder
-		recipes.addRecipe(new ItemStack(blockBuilderID, 2,0),
-				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Item.doorSteel });
-
-		recipes.addRecipe(new ItemStack(blockBuilderID, 1,0),
-				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Item.doorWood });
-
-		//Civilian
-		recipes.addRecipe(new ItemStack(blockCitizenID, 1,0),
-				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.dirt });
-
-		//TownHall
-		recipes.addRecipe(new ItemStack(blockTownHallID, 1,0),
-				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.cobblestone });
-
-		//Market
-		recipes.addRecipe(new ItemStack(blockMarketID, 1,0),
-				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.sand });
+//		//Builder
+//		recipes.addRecipe(new ItemStack(blockBuilderID, 2,0),
+//				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Item.doorSteel });
+//
+//		recipes.addRecipe(new ItemStack(blockBuilderID, 1,0),
+//				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Item.doorWood });
+//
+//		//Civilian
+//		recipes.addRecipe(new ItemStack(blockCitizenID, 1,0),
+//				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.dirt });
+//
+//		//TownHall
+//		recipes.addRecipe(new ItemStack(blockTownHallID, 1,0),
+//				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.cobblestone });
+//
+//		//Market
+//		recipes.addRecipe(new ItemStack(blockMarketID, 1,0),
+//				new Object[] { "###", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Block.sand });
 	}
 
 	public mod_MineColony() {
@@ -147,8 +147,6 @@ public class mod_MineColony extends BaseMod {
 			blockFarmerID = Integer.parseInt(minecolProps.getProperty("FarmerBlockID"));
 			blockWarehouseID = Integer.parseInt(minecolProps.getProperty("WarehouseBlockID"));
 			blockBankID = Integer.parseInt(minecolProps.getProperty("BankBlockID"));
-			blockBuilderID = Integer.parseInt(minecolProps.getProperty("BuilderBlockID"));
-			blockCitizenID = Integer.parseInt(minecolProps.getProperty("CitizenBlockID"));
 			f.close();
 		}
 		catch (IOException e) {
@@ -211,18 +209,18 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.RegisterBlock(hutWarehouse);
 		ModLoader.RegisterBlock(hutFarmer);
 		ModLoader.RegisterBlock(hutBank);
-		ModLoader.RegisterBlock(hutBuilder);
-		ModLoader.RegisterBlock(hutCitizen);
-		ModLoader.RegisterBlock(hutTownHall);
-		ModLoader.RegisterBlock(hutMarket);
+//		ModLoader.RegisterBlock(hutBuilder);
+//		ModLoader.RegisterBlock(hutCitizen);
+//		ModLoader.RegisterBlock(hutTownHall);
+//		ModLoader.RegisterBlock(hutMarket);
 
 		//entitys
 		ModLoader.RegisterEntityID(EntityLumberjack.class, "Lumberjack", ModLoader.getUniqueEntityId());
 		ModLoader.RegisterEntityID(EntityMiner.class, "Miner", ModLoader.getUniqueEntityId());
 		ModLoader.RegisterEntityID(EntityDeliveryMan.class, "DeliveryMan", ModLoader.getUniqueEntityId());
 		ModLoader.RegisterEntityID(EntityFarmer.class, "Farmer", ModLoader.getUniqueEntityId());
-		ModLoader.RegisterEntityID(EntityBuilder.class, "Builder", ModLoader.getUniqueEntityId());
-		ModLoader.RegisterEntityID(EntityCitizen.class, "Citizen", ModLoader.getUniqueEntityId());
+//		ModLoader.RegisterEntityID(EntityBuilder.class, "Builder", ModLoader.getUniqueEntityId());
+//		ModLoader.RegisterEntityID(EntityCitizen.class, "Citizen", ModLoader.getUniqueEntityId());
 
 
 		//register names
@@ -233,10 +231,10 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.AddName(mod_MineColony.hutWarehouse, "Delivery man's chest");
 		ModLoader.AddName(mod_MineColony.hutFarmer, "Farmer's chest");
 		ModLoader.AddName(mod_MineColony.hutBank, "Bank");
-		ModLoader.AddName(mod_MineColony.hutBuilder, "Builder's chest");
-		ModLoader.AddName(mod_MineColony.hutCitizen, "Citizen's chest");
-		ModLoader.AddName(mod_MineColony.hutTownHall, "Townhall");
-		ModLoader.AddName(mod_MineColony.hutMarket, "Market");
+//		ModLoader.AddName(mod_MineColony.hutBuilder, "Builder's chest");
+//		ModLoader.AddName(mod_MineColony.hutCitizen, "Citizen's chest");
+//		ModLoader.AddName(mod_MineColony.hutTownHall, "Townhall");
+//		ModLoader.AddName(mod_MineColony.hutMarket, "Market");
 		ModLoader.AddName(mod_MineColony.moneyGold, "Gold coin");
 		ModLoader.AddName(mod_MineColony.moneySilver, "Silver coin");
 		ModLoader.AddName(mod_MineColony.moneyBronze, "Bronze coin");
@@ -245,9 +243,9 @@ public class mod_MineColony extends BaseMod {
 		ModLoader.RegisterTileEntity(TileEntityHut.class, "Hut");
 		ModLoader.RegisterTileEntity(TileEntityWarehouse.class, "Warehouse");
 		ModLoader.RegisterTileEntity(TileEntityChanger.class, "Changer");
-		ModLoader.RegisterTileEntity(TileEntityTownHall.class, "TownHall");
-		ModLoader.RegisterTileEntity(TileEntityMarket.class, "Market");
-		ModLoader.RegisterTileEntity(TileEntityCitizen.class, "Citizen");
+//		ModLoader.RegisterTileEntity(TileEntityTownHall.class, "TownHall");
+//		ModLoader.RegisterTileEntity(TileEntityMarket.class, "Market");
+//		ModLoader.RegisterTileEntity(TileEntityCitizen.class, "Citizen");
 
 		AddRecipes(CraftingManager.getInstance());
 	}
@@ -257,7 +255,7 @@ public class mod_MineColony extends BaseMod {
 		map.put(EntityMiner.class, new RenderBiped(new ModelBiped(), 0.5F));
 		map.put(EntityDeliveryMan.class, new RenderBiped(new ModelBiped(), 0.5F));
 		map.put(EntityFarmer.class, new RenderBiped(new ModelBiped(), 0.5F));
-		map.put(EntityCitizen.class, new RenderBiped(new ModelBiped(), 0.5F));
+//		map.put(EntityCitizen.class, new RenderBiped(new ModelBiped(), 0.5F));
 	}
 
 	public GuiContainer OpenModGUI(EntityPlayer player, Object instance)
@@ -267,8 +265,7 @@ public class mod_MineColony extends BaseMod {
 		else if((instance instanceof TileEntityTownHall))
 			return new GuiTownHall(player.inventory, (TileEntityTownHall)instance);
 		else if((instance instanceof TileEntityHut))
-			//return new GuiHut(player.inventory, (TileEntityHut)instance);
-			return null;
+			return new GuiHut(player.inventory, (TileEntityHut)instance);
 		return null;
 	}
 
@@ -286,7 +283,7 @@ public class mod_MineColony extends BaseMod {
 
 	public String Version()
 	{
-		return "MineColony 0.43d";
+		return "MineColony 0.44_1";
 	}
 
 }

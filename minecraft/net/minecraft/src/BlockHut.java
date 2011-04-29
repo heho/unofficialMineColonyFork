@@ -69,19 +69,45 @@ public class BlockHut extends BlockChest {
 
 	public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
     {
-        Object obj = (TileEntityHut)world.getBlockTileEntity(i, j, k);
+        Object obj = (TileEntityChest)world.getBlockTileEntity(i, j, k);
         if(world.multiplayerWorld)
         {
             return true;
         } else
         {
-            TileEntityHut tileentityhut = (TileEntityHut)world.getBlockTileEntity(i, j, k);
-			entityplayer.displayGUIChest(((IInventory) (obj)));
-//			GuiHut guiHut = new GuiHut(entityplayer.inventory, tileentityhut);
-//            ModLoader.OpenGUI(entityplayer, guiHut);
+            TileEntityChest tileentityhut = (TileEntityChest)world.getBlockTileEntity(i, j, k);
+//			entityplayer.displayGUIChest(((IInventory) (obj)));
+			GuiHut guiHut = new GuiHut(entityplayer.inventory, tileentityhut);
+            ModLoader.OpenGUI(entityplayer, guiHut);
             return true;
         }
     }
+
+	protected EntityWorker createEntity(World world)
+	{
+		return null;
+	}
+
+	public void spawnWorker(World world, int i, int j, int k)
+	{
+		// spawn miner
+		//el = new EntityLumberjack(world, workingRange);
+		EntityWorker worker = createEntity(world);
+
+		// scan for first free block near chest
+		Vec3D spawnPoint = scanForBlockNearPoint(world, 0, i, j, k, 1, 0, 1);
+
+		if(spawnPoint==null)
+			spawnPoint = scanForBlockNearPoint(world, Block.snow.blockID, i, j, k, 1, 0, 1);
+
+		if(spawnPoint!=null)
+		{
+			worker.setPosition(spawnPoint.xCoord, spawnPoint.yCoord, spawnPoint.zCoord);
+			worker.setHomePosition(i, j, k);
+			world.entityJoinedWorld(worker);
+		}
+
+	}
 	
     protected TileEntity getBlockEntity()
     {

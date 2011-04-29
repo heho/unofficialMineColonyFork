@@ -213,26 +213,10 @@ public class BlockHutLumberjack extends BlockHut {
 		// spawn lumberjack
 		spawnWorker(world, i, j, k);
 	}
-	
-	public void spawnWorker(World world, int i, int j, int k)
-	{
-		// spawn miner
-		//el = new EntityLumberjack(world, workingRange);
-		el =(EntityLumberjack) EntityList.createEntityInWorld("Lumberjack", world); 
-		
-		// scan for first free block near chest
-		Vec3D spawnPoint = scanForBlockNearPoint(world, 0, i, j, k, 1, 0, 1);
-		
-		if(spawnPoint==null)
-			spawnPoint = scanForBlockNearPoint(world, Block.snow.blockID, i, j, k, 1, 0, 1);
-		
-		if(spawnPoint!=null)
-		{
-			el.setPosition(spawnPoint.xCoord, spawnPoint.yCoord, spawnPoint.zCoord);
-			el.setHomePosition(i, j, k);
-			world.entityJoinedWorld(el);
-		}
 
+	protected EntityWorker createEntity(World world)
+	{
+		return (EntityLumberjack) EntityList.createEntityInWorld("Lumberjack", world);
 	}
 	
 	public void updateTick(World world, int i, int j, int k, Random random)

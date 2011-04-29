@@ -8,7 +8,7 @@ public class RalphPathfinder {
     public RalphPathfinder(IBlockAccess iblockaccess)
     {
         path = new RalphPath();
-        pointMap = new MCHashTable();
+        pointMap = new MCHash();
         pathOptions = new PathPoint[32];
         worldMap = iblockaccess;
     }
@@ -16,7 +16,7 @@ public class RalphPathfinder {
     public RalphPathfinder(IBlockAccess iblockaccess, RalphPathFinderBlockWeights w)
     {
         path = new RalphPath();
-        pointMap = new MCHashTable();
+        pointMap = new MCHash();
         pathOptions = new PathPoint[32];
         worldMap = iblockaccess;
         getBlockWeights=w;
@@ -387,6 +387,6 @@ public class RalphPathfinder {
     public boolean debug=false;
     private IBlockAccess worldMap;
     private RalphPath path;
-    private MCHashTable pointMap;
+    private MCHash pointMap;
     private PathPoint pathOptions[];
 }

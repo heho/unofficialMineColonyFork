@@ -5,10 +5,10 @@ package net.minecraft.src;
 
 import java.util.List;
 
-public class CraftingInventoryInformatorCB extends CraftingInventoryCB
+public class ContainerInformator extends Container
 {
 
-    public CraftingInventoryInformatorCB(IInventory iinventory, TileEntityInformator tileentityinformator)
+    public ContainerInformator(IInventory iinventory, TileEntityInformator tileentityinformator)
     {
         informator = tileentityinformator;
 
