@@ -87,6 +87,31 @@ public class EntityWorker extends EntityCreature {
 		initiated = true;
 	}
 
+	Vec3D  scanForNearestLooseItem(int[] itmList, double x, double y, double z)
+    {
+        EntityItem tmp, best=null;
+        double bestDist=909999;
+        List l = worldObj.getLoadedEntityList();
+        for (int i=0; i<l.size(); i++)
+        {
+            if (l.get(i)  instanceof EntityItem)
+            {
+                EntityItem ei = (EntityItem) l.get(i);
+                for (int j=0; j<itmList.length; j++)
+                    if (ei.item.itemID==itmList[j])
+                    {
+                        if (best==null ||  ei.getDistance(x, y, z)<bestDist)
+                        {
+                            best=ei;
+                            bestDist = ei.getDistance(x, y, z);
+                        }
+                    }
+            }
+        }
+        if (best==null) return null;
+        return Vec3D.createVector(best.posX, best.posY+1, best.posZ);
+    }
+
 	public void setHomePosition(double x, double y, double z) {
 		homePosX = MathHelper.floor_double(x);
 		homePosY = MathHelper.floor_double(y);

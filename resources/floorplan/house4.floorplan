@@ -1,0 +1,497 @@
+v 1
+10 0 -1 'http://i.imgur.com/zYcn5h.png
+level 1 ish
+
+
+
+      cccccccc  
+      cc    cc        ^1^1
+      cc    cc        cccc
+      cc    cc        cccc
+      cc    cc  
+      cc    cc                                   1
+      cc    cc                                   2
+      cc    cccccccccccccccccccccccc             3 
+      cc                          cc             4
+      cc                          cccccccc       5
+      cc                                cc       6
+      cc                                cc       7
+      cc                                cc       6
+      cc                          cccccccc       5
+      cc                          cc             4
+      cccccccccccccccccccccccccccccc             3 
+level 2 ish
+
+
+
+      cccccccc  
+      cc    cc  
+      cc    cc      ^2
+      cc    cc      ^2
+      cc    cc  
+      cc    cc                                   1
+      cc    cc                                   2
+      cc    cccccccccccccccccccccccc             3 
+      cc                          cc             4
+      cc                          cccccccc       5
+      cc                                cc       6
+      cc                                cc       7
+      cc                                cc       6
+      cc                          cccccccc       5
+      cc                          cc             4
+      cccccccccccccccccccccccccccccc             3 
+level 3 ish
+
+
+
+      cccccccc  
+      cc    cc  
+      cc    cc    ^2
+      cc    cc    ^2
+      cc    cc  
+      cc    cc                                   1
+      cc    cc                                   2
+      cc    cccccccccccccccccccccccc             3 
+      cc                          cc             4
+      cc                          cccccccc       5
+      cc                                cc       6
+      cc                                cc       7
+      cc                                cc       6
+      cc                          cccccccc       5
+      cc                          cc             4
+      cccccccccccccccccccccccccccccc             3 
+level 4 ish
+      wwwwwwww 
+      wwwwwwww 
+    wwwwwwwwwwww
+    wwwwwwwwwwww
+    wwwwwwwwwwww
+    wwwwwwwwwwww^2
+    wwwwwwwwwwww^2
+    wwwwwwwwwwww
+    wwwwwwwwwwww                                 1
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww           2
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww           3 
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww     4
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww     5
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww     6
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww     7
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww     6
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww     5
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww     4
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww           3 
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww           2
+level 5 ish
+      fpfpfpfp
+      fp    fp
+    wwsa|1|1saww
+    sa        sa
+    sa        sa
+    sa        |2  
+    sa        |2  
+    sa        sa
+    sa        sa                                 1
+    sa        sasasasasasasasasasasaww           2
+    sa                              sa           3 
+    sa                              sasasaww     4
+    sa                                    sa     5
+    sa                                    sa     6
+    sa                                    sa     7
+    sa                                    sa     6
+    sa                                    sa     5
+    sa                              sasasaww     4
+    sa                              sa           3 
+    wwsasasasasasasasasasasasasasasaww           2
+level 6 ish
+
+
+    wwsa    saww
+    sa        sa
+    gg        ww
+    gg            
+    sa            
+    sa        ww
+    gg        sa                                 1
+    gg        sasasaggggsasaggggsasaww           2
+    sa                              sa           3 
+    sa                              sasasaww     4
+    sa                                    sa     5
+    gg                                    gg     6
+    gg                                    gg     7
+    gg                                    gg     6
+    sa                                    sa     5
+    sa                              sasasaww     4
+    sa                              sa           3 
+    wwsasasaggggsasaggggsasaggggsasaww           2
+level 7 ish
+      wwwwwwww
+      wwwwwwww
+    wwsawwwwsaww
+    sa        sa
+    sa        sa
+    sa        ww  
+    sa        ww  
+    sa        sa
+    sa        sa                                 1
+    sa        sasasasasasasasasasasaww           2
+    sa                              sa           3 
+    sa                              sasasaww     4
+    sa                                    sa     5
+    sa                                    sa     6
+    sa                                    sa     7
+    sa                                    sa     6
+    sa                                    sa     5
+    sa                              sasasaww     4
+    sa                              sa           3 
+    wwsasasasasasasasasasasasasasasaww           2
+level 8 ish
+      wwwwwwww
+  ww  wwwwwwww  ww
+  wwsawwwwwwwwsaww
+  wwww        wwww
+  wwww        wwww
+  wwww        wwww 
+  wwww        wwww
+  wwww        wwww 
+  wwww        wwwwwwwwwwwwwwwwwwwwwwww           1
+  wwww        wwwwwwwwwwwwwwwwwwwwwwww           2
+  wwww                              wwwwwwwwww   3 
+  wwww                              wwwwwwwwww   4
+  wwww                                    wwww   5
+  wwww                                    wwww   6
+  wwww                                    wwww   7
+  wwww                                    wwww   6
+  wwww                                    wwww   5
+  wwww                              wwwwwwwwww   4
+  wwww                              wwwwwwwwww   3 
+  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww           2
+  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+level 9 ish
+
+    ww  wwww  ww  
+    wwsasasasaww  
+    ww        ww  
+    ww        ww  
+    ww        ww   
+    ww        ww  
+    ww        ww   
+    ww        ww                                 1
+    ww        wwwwwwwwwwwwwwwwwwwwwwww           2
+    ww                              ww           3 
+    ww                              wwwwwwww     4
+    ww                                    ww     5
+    ww                                    ww     6
+    ww                                    ww     7
+    ww                                    ww     6
+    ww                                    ww     5
+    ww                              wwwwwwww     4
+    ww                              ww           3 
+    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww           2
+level 9 ish
+
+    ww  wwww  ww  
+    wwsasasasaww  
+      ww    ww    
+      ww    ww    
+      ww    ww    
+      ww    ww    
+      ww    ww    
+      ww    ww    
+      ww    ww                                   2
+      ww    wwwwwwwwwwwwwwwwwwwwwwwwww           3 
+      ww                            ww
+      ww                            wwwwww     5
+      ww                            wwwwww     6
+    ccww                            wwwwww     7
+    ccww                            wwwwww     6
+    ccww                            wwwwww     5
+    ccww                            ww
+    ccwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww           3 
+                                                2
+level 10 ish
+
+        wwww    
+        wwww    
+        wwww      
+        wwww      
+        wwww       
+        wwww      
+        wwww       
+        wwww                                     1
+        wwww                                     2
+        wwww                                     3 
+        wwwwwwwwwwwwwwwwwwwwwwwwwwwwww           4
+        ww                        sa             5
+        ww                        sa             6
+    ccccww                        sa             7
+    cc  ww                        sa             6
+    cc  ww                        sa             5
+    cc  wwwwwwwwwwwwwwwwwwwwwwwwwwwwww           4
+    cccccccccc                                   3 
+                                                2
+level 12 ish
+
+
+
+
+
+
+
+
+
+
+                                                 3 
+
+        wwwwwwwwwwwwwwwwwwwwwwwwwwwwww           5
+        ww                        gg             6
+    ccccww                        sa             7
+    cc  ww                        gg             6
+    cc  wwwwwwwwwwwwwwwwwwwwwwwwwwwwww           5
+    cc      cc
+    cccccccccc                                   3 
+                                                2
+level 13 ish
+
+
+
+
+
+
+
+
+
+
+                                                 3 
+
+
+        wwwwwwwwwwwwwwwwwwwwwwwwwwwwww           6
+    ccccww                        sa             7
+    cc  wwwwwwwwwwwwwwwwwwwwwwwwwwwwww           6
+    cc      cc 
+    cc      cc
+    cccccccccc
+level 14 ish
+
+
+
+
+
+
+
+
+
+
+                                               3 
+
+
+
+    ccccwwwwwwwwwwwwwwwwwwwwwwwwwwwwww           7
+    cc      cc
+    cc      cc
+    cc      cc                        
+    cccccccccc
+level 15
+            
+
+
+
+
+
+
+
+
+
+            
+
+
+
+    cccccccccc
+    cc      cc
+    cc      cc
+    cc      cc
+    cccccccccc
+level 16
+            
+
+
+
+
+
+
+
+
+
+            
+
+
+
+    cccccccccc
+    cc      cc
+    cc      cc
+    cc      cc
+    cccccccccc
+level 17
+            
+
+
+
+
+
+
+
+
+
+            
+
+
+  wwwwwwwwwwwwww
+  wwwwwwwwwwwwww
+  wwwwwwwwwwwwww
+  wwwwwwwwwwwwww
+  wwwwwwwwwwwwww
+  wwwwwwwwwwwwww
+  wwwwwwwwwwwwww
+level 18
+            
+
+
+
+
+
+
+
+
+
+            
+
+
+  wwsasasasasaww
+  sa          sa
+  sa          sa
+  sa          sa
+  sa          sa
+  sa          sa
+  wwsasasasasaww
+level 19
+            
+
+
+
+
+
+
+
+
+
+            
+
+
+  wwsaggggggsaww
+  sa          sa
+  gg          gg
+  gg          gg
+  gg          gg
+  sa          sa
+  wwsaggggggsaww
+level 19
+            
+
+
+
+
+
+
+
+
+
+            
+
+wwwwwwwwwwwwwwwwww
+ww              ww
+ww              ww
+ww              ww
+ww              ww
+ww              ww
+ww              ww
+ww              ww
+wwwwwwwwwwwwwwwwww
+level 19
+            
+
+
+
+
+
+
+
+
+
+            
+
+
+  wwwwwwwwwwwwww  
+  ww          ww  
+  ww          ww  
+  ww          ww  
+  ww          ww  
+  ww          ww
+  wwwwwwwwwwwwww  
+level 20
+            
+
+
+
+
+
+
+
+
+
+            
+
+
+
+    wwwwwwwwww    
+    ww      ww    
+    ww      ww    
+    ww      ww    
+    wwwwwwwwww  
+level 21
+            
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
+      wwwwww
+      ww  ww    
+      wwwwww    
+level 22
+            
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
+
+        fp      
+
+

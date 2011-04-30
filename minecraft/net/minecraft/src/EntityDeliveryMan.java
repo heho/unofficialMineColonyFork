@@ -221,7 +221,6 @@ public class EntityDeliveryMan extends EntityWorker {
 				findHome++;
 				if (findHome>5) isDead=true;
 			}
-
 		}
 
 		blockJumping = false;
@@ -417,7 +416,7 @@ public class EntityDeliveryMan extends EntityWorker {
 
 		defaultHoldItem = null;
 		int chestType = worldObj.getBlockId(chest.xCoord, chest.yCoord, chest.zCoord);
-
+		System.out.println(routeName + " at " + currentCheckPoint);
 
 		if (countItemInInventory(new ItemStack(Item.shovelWood,1))>0 ||
 				countItemInInventory(new ItemStack(Item.shovelStone,1))>0 ||
@@ -493,6 +492,7 @@ public class EntityDeliveryMan extends EntityWorker {
 						{
 							slot.stackSize -=quantity;
 							defaultHoldItem = new ItemStack(slot.getItem().shiftedIndex,quantity,1);
+							System.out.println("delivering " +defaultHoldItem.toString());
 							if(slot.stackSize<=0)
 							{
 								inventory.remove(i);
@@ -563,6 +563,7 @@ public class EntityDeliveryMan extends EntityWorker {
 						{
 							slot.stackSize -=quantity;
 							defaultHoldItem = new ItemStack(slot.getItem().shiftedIndex,quantity,0);
+							System.out.println("delivering " +defaultHoldItem.toString());
 							if(slot.stackSize<=0)
 							{
 								inventory.remove(i);
@@ -625,8 +626,10 @@ public class EntityDeliveryMan extends EntityWorker {
 						}
 						if(putItemIntoChest(chest, slot.getItem().shiftedIndex, quantity))
 						{
+
 							slot.stackSize -=quantity;
 							defaultHoldItem = new ItemStack(slot.getItem().shiftedIndex,quantity,0);
+							System.out.println("delivering " +defaultHoldItem.toString());
 							if(slot.stackSize<=0)
 							{
 								inventory.remove(i);
@@ -666,6 +669,7 @@ public class EntityDeliveryMan extends EntityWorker {
 				 	{
 						if(putItemIntoChest(chest, slot.getItem().shiftedIndex, 1))
 						{
+							System.out.println("dropping off " + slot.getItem().toString());
 							slot.stackSize -=1;
 						}
 						tmpcnt++;
@@ -688,6 +692,7 @@ public class EntityDeliveryMan extends EntityWorker {
 			{
 				if(items!=null)
 				{
+					System.out.println("grabbing " + items.toString());
 					inventory.add(items);
 					defaultHoldItem = new ItemStack(items.getItem().shiftedIndex, 1,0);
 					return 1;
@@ -700,6 +705,7 @@ public class EntityDeliveryMan extends EntityWorker {
 			{
 				if(items!=null)
 				{
+					System.out.println("grabbing " + items.toString());
 					inventory.add(items);
 					defaultHoldItem = new ItemStack(items.getItem().shiftedIndex, 1,0);
 					return 1;
@@ -711,6 +717,7 @@ public class EntityDeliveryMan extends EntityWorker {
 			{
 				if(items!=null)
 				{
+					System.out.println("grabbing " + items.toString());
 					inventory.add(items);
 					defaultHoldItem = new ItemStack(items.getItem().shiftedIndex, 1,0);
 					return 1;
@@ -722,6 +729,7 @@ public class EntityDeliveryMan extends EntityWorker {
 			{
 				if(items!=null)
 				{
+					System.out.println("grabbing " + items.toString());
 					inventory.add(items);
 					defaultHoldItem = new ItemStack(items.getItem().shiftedIndex, 1,0);
 					return 1;

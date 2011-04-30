@@ -136,23 +136,9 @@ public class BlockHutFarmer extends BlockHut {
 		
 	}
 	
-	public void onBlockAdded(World world, int i, int j, int k) {
-		super.onBlockAdded(world, i, j, k);		
-		//world.setWorldTime(0);
-
-		// Chest for stuff with 5 stone axes
-		world.setBlockWithNotify(i, j, k, mod_MineColony.hutFarmer.blockID);
-		TileEntityChest tileentitychest = (TileEntityChest) world
-				.getBlockTileEntity(i, j, k);
-
-		tileentitychest.setInventorySlotContents(0,  new ItemStack(Item.hoeWood, 1));
-		tileentitychest.setInventorySlotContents(1,  new ItemStack(Item.shovelWood, 1));
-		tileentitychest.setInventorySlotContents(2,  new ItemStack(Item.seeds, 10));
-
-
-		//tileentitychest.setInventorySlotContents(8,  new ItemStack(mod_MineColony.scepterGold, 1));
-
-		spawnWorker(world, i, j, k);
+	protected EntityWorker createEntity(World world)
+	{
+		return (EntityFarmer) EntityList.createEntityInWorld("Farmer", world);
 	}
 	
 	public void updateTick(World world, int i, int j, int k, Random random)

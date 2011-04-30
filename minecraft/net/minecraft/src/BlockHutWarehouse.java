@@ -17,7 +17,10 @@ public class BlockHutWarehouse extends BlockHut {
 		workingRange = 60;
 	}
 
-
+	protected EntityWorker createEntity(World world)
+	{
+		return (EntityDeliveryMan) EntityList.createEntityInWorld("DeliveryMan", world);
+	}
 
 	public boolean canPlaceBlockAt(World world, int i, int j, int k)
 	{

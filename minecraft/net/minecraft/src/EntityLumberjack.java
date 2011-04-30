@@ -47,6 +47,8 @@ public class EntityLumberjack extends EntityWorker {
 		speed = (float) 1.0;
 		blockJumping = false;
 		// gather nearby saplings
+		if (currentAction!=actionIdle)
+		{
 		EntityItem nearbyItem = gatherItemNearby(Block.sapling.blockID);
 		if(nearbyItem!=null)
 		{
@@ -70,6 +72,7 @@ public class EntityLumberjack extends EntityWorker {
 			onGetItem();
 			equipItem(nearbyItem.item, 0);
 			nearbyItem.setEntityDead();
+		}
 		}
 
 		destroySign();
@@ -256,6 +259,7 @@ public class EntityLumberjack extends EntityWorker {
 					checkFreq = 0;
 					woodPos=findGroundPoint(woodPos);
 					destPoint = Vec3D.createVectorHelper(woodPos.xCoord,woodPos.yCoord, woodPos.zCoord);
+					rpe=null;  // force a recalc of the path, since we may have gotten rid of some of the leaves
 					speed=1;moveForward=1;
 					signText3 = "";
 				} else {
@@ -270,7 +274,6 @@ public class EntityLumberjack extends EntityWorker {
 			if (idleTime > 100 && worldObj.isDaytime()) {
 				idleTime = 0;
 				currentAction = actionGetEquipment;
-				break;
 			}
 			else
 			{
@@ -278,34 +281,8 @@ public class EntityLumberjack extends EntityWorker {
 					signText3 = "Sleeping";
 
 				destPoint = null;
+				idleTime++;
 			}
-			moveForward = 0;
-			Vec3D chestPos2 = scanForBlockNearEntity(
-					mod_MineColony.hutLumberjack.blockID, 1, 1, 1);
-
-			if (chestPos2 != null) {
-				speed = 0;
-				TileEntityChest tileentitychest = (TileEntityChest) worldObj
-				.getBlockTileEntity(
-						MathHelper.floor_double(chestPos2.xCoord),
-						MathHelper.floor_double(chestPos2.yCoord),
-						MathHelper.floor_double(chestPos2.zCoord));
-
-				if(defaultHoldItem!=null)
-				{
-					putItemIntoChest(tileentitychest, defaultHoldItem.itemID, 1);
-					defaultHoldItem = null;
-					toolsList[0] = null;
-				}
-
-
-
-			} else {
-				if (destPoint == null) {
-					destPoint = Vec3D.createVectorHelper(homePosX, homePosY,homePosZ);
-				}
-			}
-			idleTime++;
 			break;
 		case actionChop:
 			moveStrafing = 0;
@@ -407,7 +384,7 @@ public class EntityLumberjack extends EntityWorker {
 				else
 					x=iPosX;y=iPosY;z=iPosZ;
 
-					System.out.println(worldObj.getBlockId(x, y-1, z) + " " + worldObj.getBlockId(x, y, z)+ " " + worldObj.getBlockId(x, y+1, z));
+					//System.out.println(worldObj.getBlockId(x, y-1, z) + " " + worldObj.getBlockId(x, y, z)+ " " + worldObj.getBlockId(x, y+1, z));
 					if(worldObj.isBlockOpaqueCube(x, y-1, z) && !worldObj.isBlockOpaqueCube(x, y, z))
 					{
 						placeBlockAt(x, y, z, Block.sapling.blockID);

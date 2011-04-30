@@ -1,0 +1,71 @@
+v1 'lumberjack hut, level 3 (9x9x6)
+4 1 -1
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+level 0
+  fpfpfpfp....fpfp
+      wwuu....uu  
+        ww....uu  
+        |2......  
+            wwuu  
+              ww  
+            ..ww  
+            wwuu  
+                fp
+level 1
+        fp    fp  
+    v2v4uu....    
+        ww....uu  
+          ......fp
+              uu..
+              v3..
+            ..v1..
+        ww..wwuu..
+                fp
+level 2
+        fpfpfpfp  
+        uu....    
+        ww        
+        ww      fp
+        wwwwwwuu  
+              ww..
+            ..ww..
+            wwuu..
+                fp
+level 3
+                  
+v4wwwwwwwwv2..    
+v4wwwwwwwwv2..    
+v4wwwwwwwwwwv1v1_w
+v4wwwwwwwwwwwwwwv2
+v4wwwwwwwwwwwwwwv2
+v4wwwwwwwwwwwwwwv2
+v4wwwwwwwwwwwwwwv2
+_wv3v3v3v3v3v3v3_w
+level 4
+                  
+  v4wwwwv2        
+  v4wwwwv2        
+  v4wwwwv2        
+  v4wwwwwwv1v1_w  
+  v4wwwwwwwwwwv2  
+  v4wwwwwwwwwwv2  
+  _wv3v3v3v3v3_w  
+                  
+level 5
+                  
+    v4v2          
+    v4v2          
+    v4v2          
+    v4v2          
+    v4wwv1v1_w    
+    _wv3v3v3_w    
+                  
+                  

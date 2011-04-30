@@ -35,7 +35,7 @@ implements RalphPathFinderBlockWeights  {
 	public EntityFarmer(World world) {
 		super(world);
 		texture = "/mob/farmer.png";
-		setSize(0.9F, 1.3F);
+		setSize(0.7F, .9F);
 		defaultHoldItem = null;
 		currentAction = actionGetEquipment;
 		destPoint = null;
@@ -83,6 +83,7 @@ implements RalphPathFinderBlockWeights  {
 	protected void workerUpdate() {
 		int bx, by, bz;
 		blockJumping = false;
+
 
 		// gather the nearby item
 		EntityItem nearbyItem = gatherItemNearby(ItemHoe.class);
@@ -140,21 +141,49 @@ implements RalphPathFinderBlockWeights  {
 		signText1 = "";
 		signText2 = "";
 		signText3 = "";
+//if (posX>60 && posX<62) debug=true;
 
 		speed = (float)0.4;
 		switch (currentAction) {
 		case actionFindGetSeeds:
+			if(!worldObj.isDaytime())
+			{
+				signText3 = "Sleeping";
+				currentAction = actionGoBack;
+				starringPointSet = false;
+				break;
+			}
 			Vec3D currentVec= Vec3D.createVectorHelper(iPosX, iPosY, iPosZ);
-			Vec3D v = scanForBlockNearPoint(Block.grass.blockID, iPosX, iPosY, iPosZ, 40,10,40);  // find nearest grass
-			if (v.distanceTo(currentVec) >4)
+			Vec3D v = scanForNearestLooseItem(new int[] {Item.seeds.shiftedIndex, Item.wheat.shiftedIndex} , posX, posY, posZ);
+			if (v==null)
+			{
+				v = scanForBlockNearPoint(Block.grass.blockID, iPosX, iPosY, iPosZ, 40,10,40);  // find nearest grass
+				//v = scanForBlockNearPoint(Block.grass.blockID, homePosX, homePosY, homePosZ, 40, 10, 40);
+
+			//	System.out.println("looking for grass at " + v);
+			}
+			else
+			{
+				v.xCoord = Math.floor(v.xCoord);
+				v.yCoord = Math.floor(v.yCoord);
+				v.zCoord = Math.floor(v.zCoord);
+		//		System.out.println("found seeds at " + v);
+
+			}
+		if (v.distanceTo(currentVec) >3)
 			{
 				actionFreq=0;
-			destPoint =v;
+				if (destPoint==null) destPoint = Vec3D.createVectorHelper(1, 2, 3);
+			destPoint.xCoord = v.xCoord;
+			destPoint.yCoord= v.yCoord;
+			destPoint.zCoord= v.zCoord; // =Vec3D.createVector(v.xCoord, v.yCoord, v.zCoord);
 			speed=moveForward=.7F;
 			starringPointSet=false;
 			break;
 			}
 			moveForward=speed=0;
+			if (worldObj.getBlockId((int) Math.floor(v.xCoord), (int) Math.floor(v.yCoord), (int) Math.floor(v.zCoord))!=Block.grass.blockID)
+				break;
 
 			workingTile = v;
 			starringPointX = workingTile.xCoord;
@@ -177,7 +206,7 @@ implements RalphPathFinderBlockWeights  {
 				break;
 			}
 			actionFreq=0;
-
+			isSwinging=false;
 			 bx = MathHelper.floor_double(workingTile.xCoord);
 			 by = MathHelper.floor_double(workingTile.yCoord);
 			 bz = MathHelper.floor_double(workingTile.zCoord);
@@ -194,6 +223,21 @@ implements RalphPathFinderBlockWeights  {
 				nearbyItem.setEntityDead();
 				seeds++;
 			}
+			irrTile=scanForIrrigatingBlockNearPoint( bx,by,bz);
+			if (irrTile!=null)
+			{
+				//System.out.println("irrigation for workingtile " + workingTile + " " + bx + " " + by +  " " + bz);
+				actionFreq=0;
+				workingTile = Vec3D.createVectorHelper(MathHelper.floor_double(bx), MathHelper.floor_double(by), MathHelper.floor_double(bz));
+				 bx = MathHelper.floor_double(workingTile.xCoord);
+				 by = MathHelper.floor_double(workingTile.yCoord);
+				 bz = MathHelper.floor_double(workingTile.zCoord);
+				irrTile = scanForIrrigatingBlockNearPoint(bx, by, bz);
+			//	System.out.println("irrigation for workingtile " + irrTile + " " + bx + " " + by +  " " + bz);
+
+						currentAction= actionIrrigate;
+						break;
+			}
 			if (seeds>0)
 			{
 				destPoint=scanForPlantPlaceNearPoint(homePosX, homePosY, homePosZ, 20, 3, 20);
@@ -209,7 +253,7 @@ implements RalphPathFinderBlockWeights  {
 			moveStrafing = 0;
 			moveForward = 0;
 			blockJumping = true;
-			isJumping = false;
+			//isJumping = false;
 			freeRoamCount = 100;
 			stuckCount = 0;
 			moveForward = (float) 0;
@@ -217,10 +261,12 @@ implements RalphPathFinderBlockWeights  {
 			if(actionFreq==0)
 			{
 				// check which blocks around can be used as irrigation
-				 bx = MathHelper.floor_double(workingTile.xCoord);
-				 by = MathHelper.floor_double(workingTile.yCoord);
-				 bz = MathHelper.floor_double(workingTile.zCoord);
-				irrTile = scanForIrrigatingBlockNearPoint(bx, by, bz);
+				 bx = iPosX; // MathHelper.floor_double(workingTile.xCoord);
+				 by = iPosY-1; //MathHelper.floor_double(workingTile.yCoord);
+				 bz = iPosZ; //MathHelper.floor_double(workingTile.zCoord);
+				//irrTile = scanForIrrigatingBlockNearPoint(bx, by, bz);
+			//	System.out.println("irrigation for workingtile " + irrTile);
+
 				if(irrTile!=null)
 				{
 					starringPointSet = true;
@@ -237,11 +283,13 @@ implements RalphPathFinderBlockWeights  {
 				}
 				else
 				{
+
 					starringPointSet = false;
 					currentAction = actionFindPlaceToPlant;
 					isSwinging = false;
 					defaultHoldItem = toolsList[0].copy();
 					actionFreq = 0;
+					break;
 				}
 			}
 
@@ -253,15 +301,17 @@ implements RalphPathFinderBlockWeights  {
 			if(actionFreq==3)
 			{
 				worldObj.playSoundEffect((float)posX + 0.5F, (float)posY + 0.5F, (float)posZ + 0.5F, Block.dirt.stepSound.func_1145_d(), (Block.dirt.stepSound.func_1147_b() + 1.0F) / 2.0F, Block.dirt.stepSound.func_1144_c() * 0.8F);
-				placeBlockAt(MathHelper.floor_double(irrTile.xCoord),
+				if (irrTile!=null) placeBlockAt(MathHelper.floor_double(irrTile.xCoord),
 						MathHelper.floor_double(irrTile.yCoord),
 						MathHelper.floor_double(irrTile.zCoord), Block.waterStill.blockID);
 
+				irrTile=null;
 				actionFreq = 0;
 				break;
 			}
 
 			actionFreq++;
+			if (actionFreq>3) actionFreq=0;
 
 			break;
 		case actionFindPlaceToPlant:
@@ -273,11 +323,6 @@ implements RalphPathFinderBlockWeights  {
 				break;
 			}
 
-			if (seeds==0)
-			{
-				currentAction = actionFindGetSeeds;
-				break;
-			}
 			rotationPitch = defaultPitch;
 			speed = (float)0.4;
 			if(!equipItem(0))
@@ -288,13 +333,19 @@ implements RalphPathFinderBlockWeights  {
 				break;
 			}
 
+			if (seeds==0)
+				{
+					currentAction = actionFindGetSeeds;
+					break;
+				}
+
 			if(destPoint==null)
 			{
 
 
 				// seek for grass or dirt
 				// first check if there is soil alreade tilled and scan near it
-				int radius = 1;
+				int radius = 2;
 				Vec3D plantPos;
 				while((plantPos=scanForPlantPlaceNearPoint(iPosX, iPosY, iPosZ, radius, 3, radius))==null && radius<=workingRange*2)
 				{
@@ -316,13 +367,17 @@ implements RalphPathFinderBlockWeights  {
 			else
 			{
 				Vec3D myPos = Vec3D.createVectorHelper(posX, posY, posZ);
-				if (destPoint.distanceTo(myPos)>3 || !atEndOfPath())
+//				if (debug) System.out.println("mypos = " + myPos.toString() + " dest is " + destPoint.toString() + " distance is " + destPoint.distanceTo(myPos));
+				if (destPoint.distanceTo(myPos)>3) // || !atEndOfPath())
+				{
+					isSwinging=false;
 					break;
+			}
 				else
 					destPoint=null;
 
 				// check if there is grass/dirt or crop nearby
-				Vec3D plantPos = scanForPlantPlaceNearPoint(iPosX, iPosY, iPosZ, 3, 3, 3);
+				Vec3D plantPos = scanForPlantPlaceNearPoint(iPosX, iPosY, iPosZ+1, 3, 3, 3);
 
 				if (plantPos != null) {
 					workingTile = Vec3D.createVectorHelper(plantPos.xCoord, plantPos.yCoord, plantPos.zCoord);
@@ -359,6 +414,7 @@ implements RalphPathFinderBlockWeights  {
 
 			isSwinging = true;
 			isJumping = false;
+
 			actionFreq++;
 			 bx = MathHelper.floor_double(workingTile.xCoord);
 			 by = MathHelper.floor_double(workingTile.yCoord);
@@ -387,6 +443,7 @@ implements RalphPathFinderBlockWeights  {
 						}
 						if(seeds>0)
 						{
+
 							currentAction = actionPlaceSeed;
 							defaultHoldItem = new ItemStack(Item.seeds, 1);
 							isSwinging = false;
@@ -405,7 +462,7 @@ implements RalphPathFinderBlockWeights  {
 								currentAction = actionIrrigate;
 							}
 							else
-							{
+								{
 								currentAction = actionFindPlaceToPlant;
 								isSwinging = false;
 								workingTile =null;
@@ -464,7 +521,7 @@ implements RalphPathFinderBlockWeights  {
 			moveStrafing = 0;
 			moveForward = 0;
 			blockJumping = true;
-			isJumping = false;
+			//isJumping = false;
 			freeRoamCount = 100;
 			stuckCount = 0;
 			moveForward = (float) 0;
@@ -515,7 +572,7 @@ implements RalphPathFinderBlockWeights  {
 			int ySolid = findTopGround(homePosX+initialXOffset, destZ) ;
 
 			destPoint = Vec3D.createVectorHelper(homePosX+initialXOffset, ySolid, destZ);
-			Vec3D entVec = Vec3D.createVector(iPosX, iPosY, iPosZ);
+			Vec3D entVec = Vec3D.createVectorHelper(iPosX, iPosY, iPosZ);
 
 			if(entVec.distanceTo(destPoint)<2)
 			{
@@ -537,8 +594,8 @@ implements RalphPathFinderBlockWeights  {
 				destZ = homePosZ - offsetZ;
 
 			ySolid = findTopGround(homePosX+initialXOffset, destZ);
-			entVec = Vec3D.createVector(iPosX, iPosY, iPosZ);
-			destPoint = Vec3D.createVectorHelper(homePosX+initialXOffset, ySolid, destZ);
+			entVec = Vec3D.createVectorHelper(iPosX, iPosY, iPosZ);
+			destPoint = Vec3D.createVectorHelper(homePosX, ySolid, destZ);
 
 			if(entVec.distanceTo(destPoint)<2)
 			{
@@ -592,7 +649,7 @@ implements RalphPathFinderBlockWeights  {
 			else
 			{
 				destPoint = Vec3D.createVectorHelper(homePosX, homePosY, homePosZ);
-				if(Vec3D.createVector(iPosX, homePosY, iPosZ).distanceTo(destPoint)<=3)
+				if(Vec3D.createVectorHelper(iPosX, homePosY, iPosZ).distanceTo(destPoint)<=3)
 					speed = (float) 0.5;
 			}
 
@@ -783,13 +840,13 @@ implements RalphPathFinderBlockWeights  {
 	}
 
 	protected Vec3D scanForPlantPlaceNearPoint(int x, int y, int z, int rx, int ry, int rz) {
-		Vec3D entityVec = Vec3D.createVector(x, y, z);
+		Vec3D entityVec = Vec3D.createVectorHelper(x, y, z);
 
 		// priority for growed crops
 		for (int i = x - workingRange; i <= x + workingRange; i++)
 			for (int j = y - 10; j <= y + 10; j++)
 				for (int k = z - workingRange; k <= z + workingRange; k++) {
-					if(Vec3D.createVector(i, j, k).distanceTo(Vec3D.createVector(homePosX, j, homePosZ)) <= workingRange &&
+					if(Vec3D.createVectorHelper(i, j, k).distanceTo(Vec3D.createVectorHelper(homePosX, j, homePosZ)) <= workingRange &&
 							worldObj.getBlockId(i, j, k) == Block.crops.blockID && worldObj.getBlockMetadata(i,j,k) == 7)
 					{
 						return Vec3D.createVectorHelper(i, j, k);
@@ -802,7 +859,7 @@ implements RalphPathFinderBlockWeights  {
 		for (int i = x - rx; i <= x + rx; i++)
 			for (int j = y - ry; j <= y + ry; j++)
 				for (int k = z - rz; k <= z + rz; k++) {
-					if(Vec3D.createVector(i, j, k).distanceTo(Vec3D.createVector(homePosX, j, homePosZ)) <= workingRange)
+					if(Vec3D.createVectorHelper(i, j, k).distanceTo(Vec3D.createVectorHelper(homePosX, j, homePosZ)) <= workingRange)
 					{
 						if (i % 6 != 0 && k % 6 != 0 &&
 								(worldObj.getBlockId(i, j, k) == Block.grass.blockID ||
@@ -828,7 +885,7 @@ implements RalphPathFinderBlockWeights  {
 	}
 
 	protected Vec3D scanForIrrigatingBlockNearPoint(int x, int y, int z) {
-		Vec3D entityVec = Vec3D.createVector(x, y, z);
+		Vec3D entityVec = Vec3D.createVectorHelper(x, y, z);
 
 		Vec3D closestVec = null;
 		double minDistance = 999999999;
@@ -864,6 +921,9 @@ implements RalphPathFinderBlockWeights  {
 				}
 			}
 
+		//if (closestVec!=null) System.out.println("irrigation point is " + closestVec.distanceTo(Vec3D.createVectorHelper(Math.floor(homePosX), Math.floor(homePosY), Math.floor(homePosZ))) + " from chest");
+		if (closestVec!=null && closestVec.distanceTo(Vec3D.createVectorHelper(Math.floor(homePosX), Math.floor(homePosY), Math.floor(homePosZ)))>11)
+				return null;  //  only irrigate close to farm.
 		if(minDistance<999999999)
 			return closestVec;
 		else

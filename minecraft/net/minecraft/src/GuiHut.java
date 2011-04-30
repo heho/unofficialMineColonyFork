@@ -31,10 +31,14 @@ public class GuiHut extends GuiContainer
 		if(page == 0)
 		{
 			fontRenderer.drawString(upperChestInventory.getInvName(), 8, (ySize - 96) + 2, 0x404040);
+			drawRect(99, 5, 166, 15, 0x66000000);
+			drawRect(99, 5, 165, 14, 0xffa3a3a3);
 			fontRenderer.drawString("[Information]", 100, 6, 0x404040);
 		}
 		else if(page == 1)
 		{
+			drawRect(99, 5, 159, 15, 0x66000000);
+			drawRect(99, 5, 158, 14, 0xffc4b4a2);
 			fontRenderer.drawString("[Inventory]", 100, 6, 0x404040);
 		}
 	}
@@ -42,7 +46,7 @@ public class GuiHut extends GuiContainer
 	protected void mouseClicked(int i, int j, int k)
     {
         super.mouseClicked(i, j, k);
-		if(i > 225 && j > 41 && i < 295 && j < 50)
+		if(i > ((width - xSize) / 2) + 95 && j > ((height - ySize) / 2) + 5 && i < ((width - xSize) / 2) + 170 && j < ((height - ySize) / 2) + 15)
 		{
 			if(page == 0)
 			{

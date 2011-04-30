@@ -20,7 +20,12 @@ public class BlockHutMiner extends BlockHut {
 		// CraftingManager.getInstance().addRecipe(new ItemStack(blockID, 1,0),
 				// new Object[] { "##", Character.valueOf('#'), Block.dirt,});
 	}
-	
+
+	protected EntityWorker createEntity(World world)
+	{
+		return (EntityMiner) EntityList.createEntityInWorld("Miner", world);
+	}
+
 	public boolean canPlaceBlockAt(World world, int i, int j, int k)
 	{
 		// check if there are other chests nearby
@@ -192,25 +197,6 @@ public class BlockHutMiner extends BlockHut {
 		// tileentitychest.setInventorySlotContents(11,  new ItemStack(Item.shovelDiamond, 1));
 
     }
-	
-	public void spawnWorker(World world, int i, int j, int k)
-	{
-		// spawn miner
-		em = (EntityMiner) EntityList.createEntityInWorld("Miner", world); 
-		
-		// scan for first free block near chest
-		Vec3D spawnPoint = scanForBlockNearPoint(world, 0, i, j, k, 1, 0, 1);
-		if(spawnPoint==null)
-			spawnPoint = scanForBlockNearPoint(world, Block.snow.blockID, i, j, k, 1, 0, 1);
-		
-		if(spawnPoint!=null)
-		{
-			em.setPosition(spawnPoint.xCoord, spawnPoint.yCoord, spawnPoint.zCoord);
-			em.setHomePosition(i, j, k);
-			world.entityJoinedWorld(em);
-		}
-
-	}
 	
 	public void onBlockRemoval(World world, int i, int j, int k)
 	{

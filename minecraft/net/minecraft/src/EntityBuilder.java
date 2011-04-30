@@ -75,7 +75,7 @@ public class EntityBuilder extends EntityWorker {
 		if (rndTexture==3) texture = "/mob/builder3.png";
 		if (rndTexture==4) texture = "/mob/builder4.png";
 
-		setSize(.9F, 1.3F);
+		setSize(0.7F, .9F);
 
 		//setSize((floaw) (Math.random()*.4+.8), (float) (Math.random()*.4+.8));
 		defaultHoldItem = null;
@@ -146,6 +146,7 @@ public class EntityBuilder extends EntityWorker {
 
 			if(!worldObj.isDaytime() )
 			{
+				idleTime=100;
 				displayMessage("","", "Sleeping");
 				break;
 			}
@@ -211,6 +212,7 @@ public class EntityBuilder extends EntityWorker {
 				// didn't find build sign.
 				// unload my materials
 				placeAllMatsInChest();
+				idleTime=100;
 			}
 			break;
 		case actionGotoNextConstructionSite:
@@ -879,7 +881,7 @@ public class EntityBuilder extends EntityWorker {
 		if (itmstk!=null)
 			{
 			addtoOurInventory(myBlockID[i], itmstk.stackSize);
-			defaultHoldItem=new ItemStack(Item.itemsList[myBlockID[i]],1);
+			defaultHoldItem=itmstk;
 			return true;
 			}
 		}
@@ -1137,6 +1139,7 @@ public class EntityBuilder extends EntityWorker {
 		    if (facing==1) facing=4;
 		    if (facing==2) facing=5;
 		    if (facing==3) facing=6;
+		    placeBlockAt(x,y+1, z, 0);
 		  	placeBlockAt(x,y,z, blockType);
   		  	world.setBlockMetadataWithNotify(x,y,z, facing);
 
@@ -1183,7 +1186,21 @@ public class EntityBuilder extends EntityWorker {
 	//			System.out.println("placing block " + fpSymbol + " at x=" + destX + " y=" + destY + " z=" + destZ);
 
 			if (blockType>0)
-				defaultHoldItem=new ItemStack(Item.itemsList[blockType],1);
+				for (int j=1; j<255; j++)
+				{
+					if ( Item.itemsList[j]!=null)
+					{
+						System.out.println(j + " " + Item.itemsList[j].getItemName());
+						if ( Item.itemsList[j].shiftedIndex==blockType)
+
+						{
+							defaultHoldItem=new ItemStack(Item.itemsList[j], 1,1);
+
+							break;
+						}
+					}
+				}
+
 			replaceWorldBlock(world.getBlockId((int) destX,(int) destY,(int) destZ), blockType);
 			placeBlockAt((int) destX,(int) destY,(int) destZ, blockType);
 
